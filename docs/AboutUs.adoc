@@ -19,18 +19,18 @@ Role: Dev Ops + Authentication + UI
 
 '''
 
-=== John Roe
-image::lejolly.jpg[width="150", align="left"]
-{empty}[http://github.com/lejolly[github]] [<<johndoe#, portfolio>>]
+=== Liu Xiaohang
+image::Xiaohang.jpg[width="150", align="left"]
+{empty}[https://github.com/Kelly9373[github]] [<<Xiaohang#, portfolio>>]
 
-Role: Team Lead +
-Responsibilities: UI
+Role: Developer +
+Responsibilities: Data
 
 '''
 
-=== Johnny Doe
-image::yijinl.jpg[width="150", align="left"]
-{empty}[http://github.com/yijinl[github]] [<<johndoe#, portfolio>>]
+=== Lim Fong Yuan
+image::fongyuan.jpg[width="150", align="left"]
+{empty}[https://github.com/FongYuan[github]] [<<fongyuan#, portfolio>>]
 
 Role: Developer +
 Responsibilities: Data
