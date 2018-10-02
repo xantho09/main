@@ -37,12 +37,12 @@ Responsibilities: Data
 
 '''
 
-=== Johnny Roe
-image::m133225.jpg[width="150", align="left"]
-{empty}[http://github.com/m133225[github]] [<<johndoe#, portfolio>>]
+=== Muhammad Irham Rasyidi Bin Zainal
+image::xantho09.png[width="150", align="left"]
+{empty}[http://github.com/xantho09[github]] [<<irham#, portfolio>>]
 
 Role: Developer +
-Responsibilities: Dev Ops + Threading
+Responsibilities: UI
 
 '''
 
