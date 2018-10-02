@@ -46,11 +46,11 @@ Responsibilities: UI
 
 '''
 
-=== Benson Meier
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
+=== David Kum
+image::prokarius.png[width="150", align="left"]
+{empty}[http://github.com/prokarius[github]] [<<prokarius#, portfolio>>]
 
 Role: Developer +
-Responsibilities: UI
+Responsibilities: Logic Components
 
 '''
