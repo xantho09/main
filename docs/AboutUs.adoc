@@ -37,20 +37,20 @@ Responsibilities: Data
 
 '''
 
+=== Muhammad Irham Rasyidi Bin Zainal
+image::xantho09.png[width="150", align="left"]
+{empty}[http://github.com/xantho09[github]] [<<irham#, portfolio>>]
+
+Role: Developer +
+Responsibilities: UI
+
+'''
+
 === David Kum
 image::prokarius.png[width="150", align="left"]
 {empty}[http://github.com/prokarius[github]] [<<prokarius#, portfolio>>]
 
 Role: Developer +
 Responsibilities: Logic Components
-
-'''
-
-=== Benson Meier
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
-
-Role: Developer +
-Responsibilities: UI
 
 '''
