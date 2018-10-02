@@ -13,7 +13,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 === Ang Wei Neng
 image::weineng.jpg[width="150", align="left"]
-{empty}[https://www.weineng.io[homepage]] [https://github.com/wn96[github]] [<<weineng#, portfolio>>]
+{empty}[https://www.weineng.io[homepage]] [https://github.com/wn96[github]] [<<wn96#, portfolio>>]
 
 Role: Dev Ops + Authentication + UI
 
@@ -21,7 +21,7 @@ Role: Dev Ops + Authentication + UI
 
 === Liu Xiaohang
 image::Xiaohang.jpg[width="150", align="left"]
-{empty}[https://github.com/Kelly9373[github]] [<<Xiaohang#, portfolio>>]
+{empty}[https://github.com/Kelly9373[github]] [<<Kelly9373#, portfolio>>]
 
 Role: Developer +
 Responsibilities: Data
@@ -30,7 +30,7 @@ Responsibilities: Data
 
 === Lim Fong Yuan
 image::fongyuan.jpg[width="150", align="left"]
-{empty}[https://github.com/FongYuan[github]] [<<fongyuan#, portfolio>>]
+{empty}[https://github.com/FongYuan[github]] [<<FongYuan#, portfolio>>]
 
 Role: Developer +
 Responsibilities: Data
