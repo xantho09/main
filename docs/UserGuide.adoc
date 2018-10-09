@@ -18,7 +18,7 @@ By: `Team F10-2`      Since: `Sep 2018`      Licence: `MIT`
 
 == Introduction
 
-Ever wanted to start up your business, only to realise that managing your inventories is a clumpy chore. Current available inventories management softwares such as as MYOB is expensive and does not offer useful features to small scale businesses. Introducing WFIDX, the new revolutionary command line application that promises to revolutionise how the SME industry manages inventories. Minimizing the clunky Graphical User Interface (GUI) that hinders fast typist, WFIDX promises to decrease the time taken for businesses to manage their inventories than before by using CLI. Enjoy!
+Ever seen your clients waiting angrily for 15 minutes before finally getting their rental bikes? Introducing Forever A-Loan, a lightweight Command Line Interface(CLI) that revolutionalize the way bike loans are logged. Forever A-Loan promises to drastically decrease the time taken for bike rental shop owners to manage their inventories by leveraging on state of the art inventory management algorithms and the absense of clunky Graphical User Interface (GUI) that hinders fast typist. Enjoy!
 
 == Quick Start
 
