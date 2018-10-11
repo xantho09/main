@@ -883,11 +883,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |cancel a loan
 |update the system in case the loan is invalidated (e.g. the customer changes their mind)
 
-|`* * *`
-|bicycle rental shop owner who wants to manage my loans
-|cancel a loan
-|update the system in case the loan is invalidated (e.g. the customer changes their mind)
-
 |`* *`
 |bicycle rental shop owner who wants to manage my loans
 |be automatically notified and given details if the same customer tries to rent two bikes simultaneously
