@@ -1033,11 +1033,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |back-up the app's data
 |recover quickly in the case of data corruption or just general data unavailability
 
-|`*`
-|bicycle rental shop owner who is concerned about the data's security
-|back-up the app's data
-|recover quickly in the case of data corruption or just general data unavailability
-
 |`* * *`
 |new or inexperienced user
 |readily access the Help page for the app
