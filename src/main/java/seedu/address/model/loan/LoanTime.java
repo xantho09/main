@@ -1,28 +1,25 @@
 package seedu.address.model.loan;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.util.function.Predicate;
 
 /**
  * Represents a timeStamp in the loan book.
  * Guarantees: immutable;
  */
-public class LoanTime {
+public class LoanTime extends DataField<Instant> {
 
     public static final String MESSAGE_LOANTIME_CONSTRAINTS =
-            "LoanTime specified has to be either in the format 'YYYY-MM-DD HH:mm' or 'HH:mm'.";
-
-    public static final String MESSAGE_DATE_CONSTRAINTS =
-            "Date specified has to be valid, in the format 'YYYY-MM-DD'.";
-
-    public static final String MESSAGE_TIME_CONSTRAINTS =
-            "Date specified has to be valid, in the format 'HH:mm'. HH should be in 24 hour format";
+            "LoanTime specified has to be either in the format 'YYYY-MM-DD HH:mm' or 'HH:mm'. "
+                    + "HH should be in 24 hour format";
 
     /*
      * 2 versions of the regex:
@@ -35,13 +32,28 @@ public class LoanTime {
     public static final String LONG_LOANTIME_VALIDATION_REGEX = "^\\d{4}-\\d{2}-\\d{2} +\\d{2}:\\d{2}";
     public static final String SHORT_LOANTIME_VALIDATION_REGEX = "^\\d{2}:\\d{2}";
 
-    public final Instant value;
+    // Default patterns for Date and Time
+    private static final String DEFAULT_DATE_PATTERN = "uuuu-MM-dd";
+    private static final String DEFAULT_TIME_PATTERN = "HH:mm";
+
+    // Formatters for Date and Time
+    private static final DateTimeFormatter DEFAULT_DATE_FORMATTER = DateTimeFormatter
+            .ofPattern(DEFAULT_DATE_PATTERN)
+            .withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter DEFAULT_TIME_FORMATTER = DateTimeFormatter
+            .ofPattern(DEFAULT_TIME_PATTERN)
+            .withResolverStyle(ResolverStyle.STRICT);
+
+    // Default pattern for DateTime
+    private static final String DEFAULT_DATETIME_PATTERN = "uuuu-MM-dd',' HH:mm";
+
+    public static final Predicate<String> VALIDITY_PREDICATE = LoanTime::isValidLoanTime;
 
     /**
      * Constructs a {@code LoanTime} with value set at current time.
      */
     public LoanTime() {
-        value = Instant.now();
+        super(MESSAGE_LOANTIME_CONSTRAINTS, emptyString -> true, emptyString -> Instant.now(), "");
     }
 
     /**
@@ -50,37 +62,31 @@ public class LoanTime {
      * @param loanTime A valid loanTime.
      */
     public LoanTime(String loanTime) {
-        requireNonNull(loanTime);
-        checkArgument(isValidLongLoanTimeFormat(loanTime) || isValidShortLoanTimeFormat(loanTime),
-                MESSAGE_LOANTIME_CONSTRAINTS);
+        super(MESSAGE_LOANTIME_CONSTRAINTS, VALIDITY_PREDICATE, LoanTime::parseLoanTime, loanTime);
+    }
 
-        // Create the Strings to pass into parse method
-        StringBuilder stringBuilder = new StringBuilder();
-
-        // Check the date
-        if (isValidLongLoanTimeFormat(loanTime)) {
-            String[] dateData = loanTime.split(" ");
-            checkArgument(isValidDate(dateData[0]), MESSAGE_DATE_CONSTRAINTS);
-            stringBuilder.append(dateData[0]);
-            loanTime = dateData[1];
-        } else {
-            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-            Date date = new Date();
-            stringBuilder.append(dateFormat.format(date));
+    public static boolean isValidLoanTime(String objString) {
+        // First, check if the format is correct.
+        if (!isValidLongLoanTimeFormat(objString) && !isValidShortLoanTimeFormat(objString)) {
+            return false;
         }
 
-        stringBuilder.append("T");
+        // Next, try and check for each case.
+        if (isValidLongLoanTimeFormat(objString)) {
+            // The string contains the Date and Time.
+            String[] dateData = objString.split(" ");
 
-        // Check and append the time
-        checkArgument(isValidTime(loanTime), MESSAGE_TIME_CONSTRAINTS);
-        stringBuilder.append(loanTime);
+            assert dateData.length == 2;
 
-        // Append the "Z" and other padding.
-        stringBuilder.append(":00.00Z");
+            String loanDateString = dateData[0];
+            String loanTimeString = dateData[1];
 
-        // Find a way to parse the input date correctly...
-        // I hardcoded in the -8 Hours GMT into here.
-        value = Instant.parse(stringBuilder.toString()).minusSeconds(8 * 60 * 60);
+            // Check if the Date and Time are valid.
+            return isValidDate(loanDateString) && isValidTime(loanTimeString);
+        } else {
+            // The string only contains the Time. Check if the Time is valid.
+            return isValidTime(objString);
+        }
     }
 
     /**
@@ -99,18 +105,14 @@ public class LoanTime {
 
     /**
      * Returns if a given string is a valid Date.
-     * If there is a better way of doing this without relying on thrown exceptions
      */
     public static boolean isValidDate(String test) {
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        sdf.setLenient(false);
-
         try {
-            sdf.parse(test);
-        } catch (ParseException e) {
+            DEFAULT_DATE_FORMATTER.parse(test);
+        } catch (DateTimeParseException e) {
             return false;
         }
+
         return true;
     }
 
@@ -119,49 +121,96 @@ public class LoanTime {
      */
     public static boolean isValidTime(String test) {
         String[] timeData = test.split(":");
-        if (timeData.length <= 1) {
-            return false;
-        }
+        assert timeData.length == 2;
+
         return (Integer.parseInt(timeData[0]) < 24) && (Integer.parseInt(timeData[1]) < 60);
     }
 
     /**
      * Returns the difference in time given one other LoanTime object.
-     * This will be returned as a long of number of second.
+     * This will be returned as a long of number of minutes.
      * Function returns 0 if the specified other LoanTime is before the current LoanTime.
      *
      * @param otherTime LoanTime object to be compared to.
      */
     public long loanTimeDifferenceMinutes(LoanTime otherTime) {
-        long timeDifference = (otherTime.value.toEpochMilli() - this.value.toEpochMilli());
-        return (timeDifference >= 0) ? timeDifference / 60000 : 0;
+        long timeDifference = Duration.between(this.value, otherTime.value).toMinutes();
+        return (timeDifference >= 0) ? timeDifference : 0;
     }
 
     /**
      * Returns the difference in time given two LoanTime objects.
-     * This will be returned as a long of number of second.
+     * This will be returned as a long of number of minutes.
      * Function returns 0 if the specified other LoanTime is before the current LoanTime.
      *
      * @param currentTime LoanTime object to signify start of time interval.
      * @param otherTime   LoanTime object to signify end of time interval.
      */
     public static long loanTimeDifferenceMinutes(LoanTime currentTime, LoanTime otherTime) {
-        long timeDifference = (otherTime.value.toEpochMilli() - currentTime.value.toEpochMilli());
-        return (timeDifference >= 0) ? timeDifference / 60000 : 0;
+        long timeDifference = Duration.between(currentTime.value, otherTime.value).toMinutes();
+        return (timeDifference >= 0) ? timeDifference : 0;
     }
 
     /**
-     * Returns the DDMMYYYY representation of the stored LoanTime.
-     * The format returned is "YYYY-MM-DD, HH:MM".
+     * Parses the specified string into an {@link Instant}. This method will use the current System
+     * time zone during the parsing process.
+     *
+     * @param objString The string to parse
+     * @return The parsed {@link Instant}
+     */
+    private static Instant parseLoanTime(String objString) {
+        // If the string is not valid, throw an exception.
+        if (!isValidLoanTime(objString)) {
+            throw new IllegalArgumentException(MESSAGE_LOANTIME_CONSTRAINTS);
+        }
+
+        // Prepare the Date and Time fields.
+        LocalDate loanLocalDate;
+        LocalTime loanLocalTime;
+
+        // Consider both cases.
+        if (isValidLongLoanTimeFormat(objString)) {
+            // Split by spaces to separate the Date and Time strings
+            String[] dateData = objString.split(" ");
+
+            assert dateData.length == 2;
+
+            // Obtain the Date and Time strings
+            String loanDateString = dateData[0];
+            String loanTimeString = dateData[1];
+
+            // Parse the Date and Time strings.
+            loanLocalDate = LocalDate.parse(loanDateString, DEFAULT_DATE_FORMATTER);
+            loanLocalTime = LocalTime.parse(loanTimeString, DEFAULT_TIME_FORMATTER);
+        } else {
+            // If the string does not match the LongLoanTimeFormat,
+            // then it should match the ShortLoanTimeFormat.
+            assert isValidShortLoanTimeFormat(objString);
+
+            // The date used shall be today's date.
+            loanLocalDate = LocalDate.now();
+            // Parse the Time string.
+            loanLocalTime = LocalTime.parse(objString, DEFAULT_TIME_FORMATTER);
+        }
+
+        // Set the Time Zone as the System default time zone.
+        ZonedDateTime loanZonedDateTime = ZonedDateTime.of(loanLocalDate, loanLocalTime, ZoneId.systemDefault());
+
+        // Convert the ZonedDateTime into an Instant.
+        return Instant.from(loanZonedDateTime);
+    }
+
+    /**
+     * Returns the YYYY-MM-DD, HH:MM representation of the stored LoanTime.
+     * The format returned is "YYYY-MM-DD HH:MM".
      */
     @Override
     public String toString() {
-        // We create a new Date object and return the DDMMYYYY representation of it
-        Date date = new Date(value.getEpochSecond() * 1000);
+        // Create a DateTimeFormatter to format the Instant.
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+                .ofPattern(DEFAULT_DATETIME_PATTERN)    // Set the pattern to be the default pattern.
+                .withZone(ZoneId.systemDefault());      // Set the time zone as the current time zone
 
-        // Set the formatting out.
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd',' HH:mm");
-
-        return simpleDateFormat.format(date);
+        return dateTimeFormatter.format(value);
     }
 }
