@@ -32,6 +32,8 @@ public class LoanTime extends DataField<Instant> {
     public static final String LONG_LOANTIME_VALIDATION_REGEX = "^\\d{4}-\\d{2}-\\d{2} +\\d{2}:\\d{2}";
     public static final String SHORT_LOANTIME_VALIDATION_REGEX = "^\\d{2}:\\d{2}";
 
+    public static final Predicate<String> VALIDITY_PREDICATE = LoanTime::isValidLoanTime;
+
     // Default patterns for Date and Time
     private static final String DEFAULT_DATE_PATTERN = "uuuu-MM-dd";
     private static final String DEFAULT_TIME_PATTERN = "HH:mm";
@@ -46,8 +48,6 @@ public class LoanTime extends DataField<Instant> {
 
     // Default pattern for DateTime
     private static final String DEFAULT_DATETIME_PATTERN = "uuuu-MM-dd',' HH:mm";
-
-    public static final Predicate<String> VALIDITY_PREDICATE = LoanTime::isValidLoanTime;
 
     /**
      * Constructs a {@code LoanTime} with value set at current time.
@@ -226,8 +226,8 @@ public class LoanTime extends DataField<Instant> {
     public String toString() {
         // Create a DateTimeFormatter to format the Instant.
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter
-                .ofPattern(DEFAULT_DATETIME_PATTERN)    // Set the pattern to be the default pattern.
-                .withZone(ZoneId.systemDefault());      // Set the time zone as the current time zone
+                .ofPattern(DEFAULT_DATETIME_PATTERN) // Set the pattern to be the default pattern.
+                .withZone(ZoneId.systemDefault()); // Set the time zone as the current time zone
 
         return dateTimeFormatter.format(value);
     }
