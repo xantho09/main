@@ -57,14 +57,20 @@ public class LoanTime extends DataField<Instant> {
     }
 
     /**
-     * Constructs an {@code LoanTime}.
+     * Constructs an {@code LoanTime} by parsing the specified string.
      *
-     * @param loanTime A valid loanTime.
+     * @param loanTime A string to be parsed into a LoanTime
      */
     public LoanTime(String loanTime) {
         super(MESSAGE_LOANTIME_CONSTRAINTS, VALIDITY_PREDICATE, LoanTime::parseLoanTime, loanTime);
     }
 
+    /**
+     * Checks if a given string can be parsed into a valid LoanTime instance.
+     *
+     * @param objString the string to test
+     * @return true if the string can be parsed into a valid LoanTime instance
+     */
     public static boolean isValidLoanTime(String objString) {
         // First, check if the format is correct.
         if (!isValidLongLoanTimeFormat(objString) && !isValidShortLoanTimeFormat(objString)) {
@@ -90,21 +96,30 @@ public class LoanTime extends DataField<Instant> {
     }
 
     /**
-     * Returns if a given string is a valid long LoanTime.
+     * Checks if a given string is a valid long LoanTime.
+     *
+     * @param test The string to test
+     * @return true if the string is a valid long LoanTime
      */
     public static boolean isValidLongLoanTimeFormat(String test) {
         return test.matches(LONG_LOANTIME_VALIDATION_REGEX);
     }
 
     /**
-     * Returns if a given string is a valid short LoanTime.
+     * Checks if a given string is a valid short LoanTime.
+     *
+     * @param test The string to test
+     * @return true if the string is a valid short LoanTime
      */
     public static boolean isValidShortLoanTimeFormat(String test) {
         return test.matches(SHORT_LOANTIME_VALIDATION_REGEX);
     }
 
     /**
-     * Returns if a given string is a valid Date.
+     * Checks if a given string is a valid Date.
+     *
+     * @param test The string to test
+     * @return true if the string is a valid Date
      */
     public static boolean isValidDate(String test) {
         try {
@@ -117,7 +132,10 @@ public class LoanTime extends DataField<Instant> {
     }
 
     /**
-     * Returns if a given string is a valid Time.
+     * Checks if a given string is a valid Time.
+     *
+     * @param test The string to test
+     * @return true if the string is a valid Time
      */
     public static boolean isValidTime(String test) {
         String[] timeData = test.split(":");
