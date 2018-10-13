@@ -52,10 +52,10 @@ public class LoanTimeTest {
         String loanTime2ToString = loanTime2.toString();
 
         assertTrue(loanTime1ToString.equals(currentDateBeforeLoanTimeCreation + ", 00:25")
-                || loanTime1ToString.endsWith(currentDateAfterLoanTimeCreation + ", 00:25"));
+                || loanTime1ToString.equals(currentDateAfterLoanTimeCreation + ", 00:25"));
 
         assertTrue(loanTime2ToString.equals(currentDateBeforeLoanTimeCreation + ", 21:03")
-                || loanTime2ToString.endsWith(currentDateAfterLoanTimeCreation + ", 21:03"));
+                || loanTime2ToString.equals(currentDateAfterLoanTimeCreation + ", 21:03"));
     }
 
     /**
