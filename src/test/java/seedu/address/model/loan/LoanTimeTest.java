@@ -184,4 +184,24 @@ public class LoanTimeTest {
         LoanTime loanTime6 = new LoanTime("2002-01-02 12:05");
         assertEquals(525600, LoanTime.loanTimeDifferenceMinutes(loanTime5, loanTime6)); // Minutes in a (non leap) year
     }
+
+    @Test
+    public void toStringIsValidInputTest() {
+        String loanTimeString1 = "2103-01-03 21:03";
+        LoanTime loanTime1 = new LoanTime(loanTimeString1);
+        String loanTime1ToString = loanTime1.toString();
+
+        // The output of toString should match the initial input string.
+        assertEquals(loanTimeString1, loanTime1ToString);
+
+        // If used to create another LoanTime object, it should be equivalent.
+        LoanTime loanTime2 = new LoanTime(loanTime1ToString);
+        assertEquals(loanTime1, loanTime2);
+
+        // Test the same thing with a LoanTime created using only a time string.
+        LoanTime loanTime3 = new LoanTime("20:00");
+        LoanTime loanTime4 = new LoanTime(loanTime3.toString());
+
+        assertEquals(loanTime3, loanTime4);
+    }
 }
