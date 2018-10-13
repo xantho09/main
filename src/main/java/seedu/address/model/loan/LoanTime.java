@@ -152,8 +152,7 @@ public class LoanTime extends DataField<Instant> {
      * @param otherTime LoanTime object to be compared to.
      */
     public long loanTimeDifferenceMinutes(LoanTime otherTime) {
-        long timeDifference = Duration.between(this.value, otherTime.value).toMinutes();
-        return (timeDifference >= 0) ? timeDifference : 0;
+        return loanTimeDifferenceMinutes(this, otherTime);
     }
 
     /**
