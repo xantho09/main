@@ -47,7 +47,7 @@ public class LoanTime extends DataField<Instant> {
             .withResolverStyle(ResolverStyle.STRICT);
 
     // Default pattern for DateTime
-    private static final String DEFAULT_DATETIME_PATTERN = "uuuu-MM-dd',' HH:mm";
+    private static final String DEFAULT_DATETIME_PATTERN = "uuuu-MM-dd HH:mm";
 
     /**
      * Constructs a {@code LoanTime} with value set at current time.

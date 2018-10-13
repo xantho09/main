@@ -13,21 +13,19 @@ import org.junit.Test;
 
 public class LoanTimeTest {
 
-    // Note that this method does not run correctly on Appveyor.
-    // Tried and tested though. It works.
     /**
      * Tests for LoanTime object creation based on current system date.
      */
     @Test
     public void constructorInputStringFormatValue() {
         LoanTime loanTime1 = new LoanTime("2001-02-03 19:06");
-        assertEquals("2001-02-03, 19:06", loanTime1.toString());
+        assertEquals("2001-02-03 19:06", loanTime1.toString());
 
         LoanTime loanTime2 = new LoanTime("2021-12-24 02:06");
-        assertEquals("2021-12-24, 02:06", loanTime2.toString());
+        assertEquals("2021-12-24 02:06", loanTime2.toString());
 
         LoanTime loanTime3 = new LoanTime("2103-01-01 21:03");
-        assertEquals("2103-01-01, 21:03", loanTime3.toString());
+        assertEquals("2103-01-01 21:03", loanTime3.toString());
     }
 
     /**
@@ -52,10 +50,10 @@ public class LoanTimeTest {
         String loanTime2ToString = loanTime2.toString();
 
         assertTrue(loanTime1ToString.equals(currentDateBeforeLoanTimeCreation + ", 00:25")
-                || loanTime1ToString.equals(currentDateAfterLoanTimeCreation + ", 00:25"));
+                || loanTime1ToString.equals(currentDateAfterLoanTimeCreation + " 00:25"));
 
         assertTrue(loanTime2ToString.equals(currentDateBeforeLoanTimeCreation + ", 21:03")
-                || loanTime2ToString.equals(currentDateAfterLoanTimeCreation + ", 21:03"));
+                || loanTime2ToString.equals(currentDateAfterLoanTimeCreation + " 21:03"));
     }
 
     /**
@@ -68,7 +66,7 @@ public class LoanTimeTest {
         LocalDateTime currentDateTimeAfterLoanTimeCreation = LocalDateTime.now().withSecond(0).withNano(0);
 
         LocalDateTime loanTimeAsLocalDateTime = LocalDateTime.parse(loanTime.toString(),
-                DateTimeFormatter.ofPattern("uuuu-MM-dd',' HH:mm"));
+                DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm"));
 
         // The expected results are that "dateTimeBeforeCreation <= loanTime <= dateTimeAfterCreation".
         // Since the LocalDateTime class does not have a "isBeforeOrEquals" method, we will use the inverse,
