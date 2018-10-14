@@ -13,6 +13,9 @@ import org.junit.Test;
 
 public class LoanTimeTest {
 
+    private static final DateTimeFormatter EXPECTED_DATE_FORMAT = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+    private static final DateTimeFormatter EXPECTED_DATETIME_FORMAT = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm");
+
     /**
      * Tests for LoanTime object creation based on current system date.
      */
@@ -41,10 +44,10 @@ public class LoanTimeTest {
         // between the next two statements. Therefore, we'll also have the current
         // date after the LoanTime construction. The constructed LoanTime must be
         // equal to one of them.
-        String currentDateBeforeLoanTimeCreation = LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-dd"));
+        String currentDateBeforeLoanTimeCreation = LocalDate.now().format(EXPECTED_DATE_FORMAT);
         LoanTime loanTime1 = new LoanTime("00:25");
         LoanTime loanTime2 = new LoanTime("21:03");
-        String currentDateAfterLoanTimeCreation = LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-dd"));
+        String currentDateAfterLoanTimeCreation = LocalDate.now().format(EXPECTED_DATE_FORMAT);
 
         String loanTime1ToString = loanTime1.toString();
         String loanTime2ToString = loanTime2.toString();
@@ -65,8 +68,7 @@ public class LoanTimeTest {
         LoanTime loanTime = new LoanTime();
         LocalDateTime currentDateTimeAfterLoanTimeCreation = LocalDateTime.now().withSecond(0).withNano(0);
 
-        LocalDateTime loanTimeAsLocalDateTime = LocalDateTime.parse(loanTime.toString(),
-                DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm"));
+        LocalDateTime loanTimeAsLocalDateTime = LocalDateTime.parse(loanTime.toString(), EXPECTED_DATETIME_FORMAT);
 
         // The expected results are that "dateTimeBeforeCreation <= loanTime <= dateTimeAfterCreation".
         // Since the LocalDateTime class does not have a "isBeforeOrEquals" method, we will use the inverse,
