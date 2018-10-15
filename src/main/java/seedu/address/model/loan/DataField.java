@@ -21,7 +21,7 @@ public abstract class DataField<T> {
      *      Returns true iff the given objString is valid.
      * - The constructor only needs to be of this format:
      *     - arguments: {@code String objString}
-     *     - {@code { super(MESSAGE_CONSTRAINTS, VALIDITY_PREDICATE, parser, objString); }}
+     *     - {@code { super(MESSAGE_CONSTRAINTS, [CLASS-NAME]::isValid, parser, objString); }}
      *         - The parser converts the given objString into an object of type {@code T}, e.g. {@code Integer.parseInt}
      *         - The parser must be guaranteed to work (i.e. output a valid value) on a valid objString
      */
