@@ -14,9 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import seedu.address.model.bike.exceptions.DuplicateBikeException;
 import seedu.address.model.bike.exceptions.BikeNotFoundException;
-import seedu.address.testutil.BikeBuilder;
+import seedu.address.model.bike.exceptions.DuplicateBikeException;
 
 public class UniqueBikeListTest {
     @Rule
