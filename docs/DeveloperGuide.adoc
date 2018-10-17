@@ -366,6 +366,9 @@ Every bicycle will have the following members:
 * `loanReserves`: The future loans (i.e. reservations) associated with this bicycle, sorted chronologically.
 * Traits that characterize the bicycle, such as `brand`, `model`, `top speed`, `wheel size`, `weight`, `material` etc.
 
+[NOTE]
+Why two lists to track loans, instead of collating them into one big list? Because each list has a specific category of loans and it is more common to encounter situations that deal with only one of the lists (e.g. checking transaction history, or checking for clashes with reservations), rather than both.
+
 Every `Loan` will have a reference to exactly one `Bike`: the bicycle that is loaned out. Conversely, every `Bike` has a reference to a list of `Loan`s, which track the bicycle's loan history and future reservations.
 
 [NOTE]
