@@ -2,7 +2,10 @@ package seedu.address.model;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_BIKES;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_LOANS;
+import static seedu.address.testutil.TypicalBikes.BIKE1;
+import static seedu.address.testutil.TypicalBikes.BIKE2;
 import static seedu.address.testutil.TypicalLoans.ALICE;
 import static seedu.address.testutil.TypicalLoans.BENSON;
 
@@ -35,8 +38,19 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void hasBike_bikeNotInAddressBook_returnsFalse() {
+        assertFalse(modelManager.hasBike(BIKE1));
+    }
+
+    @Test
     public void hasLoan_loanNotInAddressBook_returnsFalse() {
         assertFalse(modelManager.hasLoan(ALICE));
+    }
+
+    @Test
+    public void hasBike_bikeInAddressBook_returnsTrue() {
+        modelManager.addBike(BIKE1);
+        assertTrue(modelManager.hasBike(BIKE1));
     }
 
     @Test
@@ -59,7 +73,9 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        AddressBook addressBook = new AddressBookBuilder().withLoan(ALICE).withLoan(BENSON).build();
+        AddressBook addressBook = new AddressBookBuilder()
+                .withLoan(ALICE).withLoan(BENSON)
+                .withBike(BIKE1).withBike(BIKE2).build();
         AddressBook differentAddressBook = new AddressBook();
         UserPrefs userPrefs = new UserPrefs();
 
@@ -86,6 +102,7 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
+        modelManager.updateFilteredBikeList(PREDICATE_SHOW_ALL_BIKES);
         modelManager.updateFilteredLoanList(PREDICATE_SHOW_ALL_LOANS);
 
         // different userPrefs -> returns true
