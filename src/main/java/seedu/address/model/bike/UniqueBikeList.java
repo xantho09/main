@@ -8,8 +8,8 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.address.model.bike.exceptions.DuplicateBikeException;
 import seedu.address.model.bike.exceptions.BikeNotFoundException;
+import seedu.address.model.bike.exceptions.DuplicateBikeException;
 
 /**
  * A list of bikes that enforces uniqueness between its elements and does not allow nulls.

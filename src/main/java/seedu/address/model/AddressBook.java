@@ -7,8 +7,8 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.bike.Bike;
-import seedu.address.model.loan.Loan;
 import seedu.address.model.bike.UniqueBikeList;
+import seedu.address.model.loan.Loan;
 import seedu.address.model.loan.UniqueLoanList;
 
 /**
