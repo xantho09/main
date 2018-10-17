@@ -34,6 +34,7 @@ public class AddressBookTest {
     @Test
     public void constructor() {
         assertEquals(Collections.emptyList(), addressBook.getLoanList());
+        assertEquals(Collections.emptyList(), addressBook.getBikeList());
     }
 
     @Test
@@ -63,6 +64,12 @@ public class AddressBookTest {
     }
 
     @Test
+    public void hasBike_nullBike_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        addressBook.hasBike(null);
+    }
+
+    @Test
     public void hasLoan_nullLoan_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         addressBook.hasLoan(null);
@@ -85,6 +92,12 @@ public class AddressBookTest {
         Loan editedAlice = new LoanBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         assertTrue(addressBook.hasLoan(editedAlice));
+    }
+
+    @Test
+    public void getBikeList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        addressBook.getBikeList().remove(0);
     }
 
     @Test
