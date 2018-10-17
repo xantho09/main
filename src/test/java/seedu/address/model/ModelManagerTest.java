@@ -23,6 +23,12 @@ public class ModelManagerTest {
     private ModelManager modelManager = new ModelManager();
 
     @Test
+    public void hasBike_nullBike_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        modelManager.hasBike(null);
+    }
+
+    @Test
     public void hasLoan_nullLoan_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         modelManager.hasLoan(null);
@@ -37,6 +43,12 @@ public class ModelManagerTest {
     public void hasLoan_loanInAddressBook_returnsTrue() {
         modelManager.addLoan(ALICE);
         assertTrue(modelManager.hasLoan(ALICE));
+    }
+
+    @Test
+    public void getFilteredBikeList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        modelManager.getFilteredBikeList().remove(0);
     }
 
     @Test
