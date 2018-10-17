@@ -19,6 +19,7 @@ import org.junit.rules.ExpectedException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 import seedu.address.model.loan.exceptions.DuplicateLoanException;
 import seedu.address.testutil.LoanBuilder;
@@ -53,8 +54,9 @@ public class AddressBookTest {
         // Two loans with the same identity fields
         Loan editedAlice = new LoanBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
+        List<Bike> newBikes = Arrays.asList();
         List<Loan> newLoans = Arrays.asList(ALICE, editedAlice);
-        AddressBookStub newData = new AddressBookStub(newLoans);
+        AddressBookStub newData = new AddressBookStub(newBikes, newLoans);
 
         thrown.expect(DuplicateLoanException.class);
         addressBook.resetData(newData);
@@ -95,10 +97,17 @@ public class AddressBookTest {
      * A stub ReadOnlyAddressBook whose loans list can violate interface constraints.
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
+        private final ObservableList<Bike> bikes = FXCollections.observableArrayList();
         private final ObservableList<Loan> loans = FXCollections.observableArrayList();
 
-        AddressBookStub(Collection<Loan> loans) {
+        AddressBookStub(Collection<Bike> bikes, Collection<Loan> loans) {
+            this.bikes.setAll(bikes);
             this.loans.setAll(loans);
+        }
+
+        @Override
+        public ObservableList<Bike> getBikeList() {
+            return bikes;
         }
 
         @Override
