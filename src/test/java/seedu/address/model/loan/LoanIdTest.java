@@ -39,11 +39,11 @@ public class LoanIdTest {
         LoanId id4 = new LoanId("0008472"); // Leading zeroes
         LoanId id5 = new LoanId("999999999"); // Maximum value
 
-        assertEquals((int) id1.value, 245);
-        assertEquals((int) id2.value, 0);
-        assertEquals((int) id3.value, 0);
-        assertEquals((int) id4.value, 8472);
-        assertEquals((int) id5.value, 999999999);
+        assertEquals(245, (int) id1.value);
+        assertEquals(0, (int) id2.value);
+        assertEquals(0, (int) id3.value);
+        assertEquals(8472, (int) id4.value);
+        assertEquals(999999999, (int) id5.value);
     }
 
     @Test
