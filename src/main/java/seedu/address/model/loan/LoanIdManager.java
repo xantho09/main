@@ -9,11 +9,11 @@ public class LoanIdManager {
     private static final int INITIAL_LOAN_ID = -1;
     private static final int COUNTER_MAXIMUM = 1000000000;
 
-    private int runningIdCounter;
+    private int lastUsedIdValue;
     private boolean isMaximumReached;
 
     public LoanIdManager() {
-        runningIdCounter = INITIAL_LOAN_ID;
+        lastUsedIdValue = INITIAL_LOAN_ID;
         isMaximumReached = false;
 
         // Ensure that the first generated Loan ID (INITIAL_LOAN_ID + 1) is valid.
@@ -23,13 +23,13 @@ public class LoanIdManager {
     public LoanIdManager(LoanId lastUsedLoanId) {
         if (lastUsedLoanId.isMaximumId()) {
             isMaximumReached = true;
-            runningIdCounter = COUNTER_MAXIMUM;
+            lastUsedIdValue = COUNTER_MAXIMUM;
 
             return;
         }
 
         isMaximumReached = false;
-        runningIdCounter = lastUsedLoanId.value;
+        lastUsedIdValue = lastUsedLoanId.value;
     }
 
     public boolean hasNextAvailableLoanId() {
@@ -41,14 +41,14 @@ public class LoanIdManager {
             throw new IllegalStateException("No more available Loan IDs");
         }
 
-        incrementIdCounter();
-        LoanId output = LoanId.fromInt(runningIdCounter);
+        incrementLastUsedIdValue();
+        LoanId output = LoanId.fromInt(lastUsedIdValue);
 
         isMaximumReached = output.isMaximumId();
         return output;
     }
 
-    private void incrementIdCounter() {
-        ++runningIdCounter;
+    private void incrementLastUsedIdValue() {
+        ++lastUsedIdValue;
     }
 }
