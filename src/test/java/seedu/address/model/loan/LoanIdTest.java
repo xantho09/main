@@ -5,9 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
+import static seedu.address.testutil.Assert.assertThrows;
 
-import seedu.address.testutil.Assert;
+import org.junit.Test;
 
 public class LoanIdTest {
 
@@ -62,7 +62,7 @@ public class LoanIdTest {
     @Test
     public void invalidLoanIdConstructionException() {
         // Trying to construct a new Loan ID with an invalid string should throw an IllegalArgumentException.
-        Assert.assertThrows(IllegalArgumentException.class, () -> new LoanId("badId"));
+        assertThrows(IllegalArgumentException.class, () -> new LoanId("badId"));
     }
 
     @Test
@@ -72,5 +72,26 @@ public class LoanIdTest {
 
         assertTrue(maxLoanId.isMaximumId());
         assertFalse(normalLoanId.isMaximumId());
+    }
+
+    @Test
+    public void integerConstructorTest() {
+        LoanId loanId1Int = LoanId.fromInt(404); // Standard Loan ID constructed from int
+        LoanId loanId1String = new LoanId("404"); // Same ID constructed from String
+
+        LoanId loanId2Int = LoanId.fromInt(287472); // Standard Loan ID constructed from int
+        LoanId loanId2String = new LoanId("287472"); // Same ID constructed from String
+
+        assertEquals(404, (int) loanId1Int.value);
+        assertEquals(loanId1Int, loanId1String);
+
+        assertEquals(287472, (int) loanId2Int.value);
+        assertEquals(loanId2Int, loanId2String);
+    }
+
+    @Test
+    public void invalidIntegerConstructorTest() {
+        assertThrows(IllegalArgumentException.class, () -> LoanId.fromInt(-1)); // Negative number
+        assertThrows(IllegalArgumentException.class, () -> LoanId.fromInt(1234567890)); // More than 9 digits.
     }
 }
