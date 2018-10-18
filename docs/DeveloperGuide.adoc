@@ -360,6 +360,7 @@ As bicycles have a lot of properties, statuses and actions associated with them,
 Each `AddressBook` will have its own list of `Bike`s, representing all the bicycles that a bicycle shop owner has at their disposal. For the most part, the list of bicycles will be maintained in the same way as the list of loans.
 
 Every bicycle will have the following members:
+
 * `name`: A name that uniquely identifies the bicycle, e.g. the bicycle's serial number.
 * `status`: The bicycle's current status that represents where it is or what it is doing, e.g. `Available`, `Loaned Out`, `On Display`, `Under Repair`.
 * `loanHistory`: A list of past loans associated with this bicycle, sorted chronologically.
