@@ -1,6 +1,7 @@
 package seedu.address.model.loan;
 
 import java.util.function.Predicate;
+import seedu.address.commons.util.AppUtil;
 
 /**
  * Represents a Loan's ID in the address book.
@@ -25,6 +26,16 @@ public class LoanId extends DataField<Integer> {
      */
     public LoanId(String loanId) {
         super(MESSAGE_LOANID_CONSTRAINTS, VALIDITY_PREDICATE, Integer::parseInt, loanId);
+    }
+
+    /**
+     * Creates a new Loan ID from an integer.
+     *
+     * @param value The value of the Loan ID.
+     * @return A LoanID object with the specified integer as the value.
+     */
+    public static LoanId fromInt(int value) {
+        return new LoanId(Integer.toString(value));
     }
 
     /**
