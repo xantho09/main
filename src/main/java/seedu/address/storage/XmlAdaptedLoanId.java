@@ -32,7 +32,7 @@ public class XmlAdaptedLoanId {
     }
 
     public LoanId toModelType() throws IllegalValueException {
-        if (LoanId.isValidLoanId(loanId)) {
+        if (!LoanId.isValidLoanId(loanId)) {
             throw new IllegalValueException(LoanId.MESSAGE_LOANID_CONSTRAINTS);
         }
 
