@@ -51,7 +51,7 @@ public class LoanId extends DataField<Integer> {
     }
 
     /**
-     * Checks if a given integer is a valud Loan ID.
+     * Checks if a given integer is a valid Loan ID.
      * A valid Loan ID is a non-negative integer with between 1 to 9 digits inclusive.
      *
      * @param value The integer to test.
