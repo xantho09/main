@@ -1,8 +1,8 @@
 package seedu.address.model.loan;
 
 /**
- * The LoanIdManager class keeps track of the running Loan ID and provides the next available ID when a new Loan is
- * created.
+ * The LoanIdManager class keeps track of the running Loan ID and
+ * provides the next available ID when a new Loan is created.
  */
 public class LoanIdManager {
 
@@ -42,7 +42,7 @@ public class LoanIdManager {
         }
 
         incrementIdCounter();
-        LoanId output = createLoanIdFromInt(runningIdCounter);
+        LoanId output = LoanId.fromInt(runningIdCounter);
 
         isMaximumReached = output.isMaximumId();
         return output;
@@ -50,9 +50,5 @@ public class LoanIdManager {
 
     private void incrementIdCounter() {
         ++runningIdCounter;
-    }
-
-    private static LoanId createLoanIdFromInt(int value) {
-        return new LoanId(Integer.toString(value));
     }
 }
