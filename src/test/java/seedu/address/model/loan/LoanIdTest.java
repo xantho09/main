@@ -11,10 +11,10 @@ import org.junit.Test;
 
 public class LoanIdTest {
 
-    private static final int EXPECTED_MAXIMUM_LOANID = 999999999;
+    private static final int EXPECTED_MAXIMUM_LOAN_ID = 999999999;
 
     @Test
-    public void isValidLoanIdTest() {
+    public void isValidLoanIdStringTest() {
         assertTrue(LoanId.isValidLoanId("0")); // Zero
         assertTrue(LoanId.isValidLoanId("7")); // Minimum number of digits
         assertTrue(LoanId.isValidLoanId("1745")); // Standard number
@@ -29,6 +29,18 @@ public class LoanIdTest {
         assertFalse(LoanId.isValidLoanId("failure")); // Non-numeric characters
         assertFalse(LoanId.isValidLoanId("1234567890")); // More than 9 digits
         assertFalse(LoanId.isValidLoanId("0000000000")); // 10 digits, even though the number does not exceed 10^10.
+    }
+
+    @Test
+    public void isValidLoanIdIntegerTest() {
+        assertTrue(LoanId.isValidLoanId(0)); // Zero
+        assertTrue(LoanId.isValidLoanId(8245)); // Standard number
+        assertTrue(LoanId.isValidLoanId(123456789)); // Maximum number of digits
+        assertTrue(LoanId.isValidLoanId(999999999)); // Largest possible ID
+
+        assertFalse(LoanId.isValidLoanId(-1)); // Negative number
+        assertFalse(LoanId.isValidLoanId(-1234567890)); // Extremely negative number
+        assertFalse(LoanId.isValidLoanId(1234567890)); // More than 9 digits
     }
 
     @Test
@@ -67,10 +79,12 @@ public class LoanIdTest {
 
     @Test
     public void maximumLoanIdTest() {
-        LoanId maxLoanId = new LoanId(Integer.toString(EXPECTED_MAXIMUM_LOANID)); // The expected maximum
+        LoanId maxLoanIdFromString = new LoanId(Integer.toString(EXPECTED_MAXIMUM_LOAN_ID)); // The expected maximum
+        LoanId maxLoanIdFromInt = LoanId.fromInt(EXPECTED_MAXIMUM_LOAN_ID);
         LoanId normalLoanId = new LoanId("4858"); // A standard Loan ID
 
-        assertTrue(maxLoanId.isMaximumId());
+        assertTrue(maxLoanIdFromString.isMaximumId());
+        assertTrue(maxLoanIdFromInt.isMaximumId());
         assertFalse(normalLoanId.isMaximumId());
     }
 
