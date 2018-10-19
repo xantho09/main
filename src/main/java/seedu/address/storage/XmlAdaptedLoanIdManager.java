@@ -6,6 +6,9 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.loan.LoanId;
 import seedu.address.model.loan.LoanIdManager;
 
+/**
+ * JAXB-friendly adapted version of the LoanIdManager.
+ */
 public class XmlAdaptedLoanIdManager {
 
     @XmlElement
