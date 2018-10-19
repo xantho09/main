@@ -1,19 +1,23 @@
 package seedu.address.model;
 
+import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.bike.Bike;
+import seedu.address.model.bike.UniqueBikeList;
 import seedu.address.model.loan.Loan;
 import seedu.address.model.loan.UniqueLoanList;
 
 /**
- * Wraps all data at the address-book level
- * Duplicates are not allowed (by .isSameLoan comparison)
+ * Wraps all data (bikes and loans) at the address-book level
+ * Duplicates are not allowed (by .isSameBike and .isSameLoan comparison)
  */
 public class AddressBook implements ReadOnlyAddressBook {
 
+    private final UniqueBikeList bikes;
     private final UniqueLoanList loans;
 
     /*
@@ -24,13 +28,14 @@ public class AddressBook implements ReadOnlyAddressBook {
      *   among constructors.
      */
     {
+        bikes = new UniqueBikeList();
         loans = new UniqueLoanList();
     }
 
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Loans in the {@code toBeCopied}
+     * Creates an AddressBook using the Bikes and Loans in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
@@ -38,6 +43,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     //// list overwrite operations
+
+    /**
+     * Replaces the contents of the bike list with {@code bikes}.
+     * {@code bikes} must not contain duplicate bikes.
+     */
+    public void setBikes(List<Bike> bikes) {
+        this.bikes.setBikes(bikes);
+    }
 
     /**
      * Replaces the contents of the loan list with {@code loans}.
@@ -53,7 +66,45 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
 
+        setBikes(newData.getBikeList());
         setLoans(newData.getLoanList());
+    }
+
+    //// bike-level operations
+
+    /**
+     * Returns true if a bike with the same identity as {@code bike} exists in the address book.
+     */
+    public boolean hasBike(Bike bike) {
+        requireNonNull(bike);
+        return bikes.contains(bike);
+    }
+
+    /**
+     * Adds a bike to the address book.
+     * The bike must not already exist in the address book.
+     */
+    public void addBike(Bike p) {
+        bikes.add(p);
+    }
+
+    /**
+     * Replaces the given bike {@code target} in the list with {@code editedBike}.
+     * {@code target} must exist in the address book.
+     * The bike identity of {@code editedBike} must not be the same as another existing bike in the address book.
+     */
+    public void updateBike(Bike target, Bike editedBike) {
+        requireNonNull(editedBike);
+
+        bikes.setBike(target, editedBike);
+    }
+
+    /**
+     * Removes {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeBike(Bike key) {
+        bikes.remove(key);
     }
 
     //// loan-level operations
@@ -97,8 +148,14 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     @Override
     public String toString() {
-        return loans.asUnmodifiableObservableList().size() + " loans";
+        return loans.asUnmodifiableObservableList().size() + " loans"
+             + bikes.asUnmodifiableObservableList().size() + " bikes";
         // TODO: refine later
+    }
+
+    @Override
+    public ObservableList<Bike> getBikeList() {
+        return bikes.asUnmodifiableObservableList();
     }
 
     @Override
@@ -110,11 +167,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddressBook // instanceof handles nulls
-                && loans.equals(((AddressBook) other).loans));
+                && loans.equals(((AddressBook) other).loans)
+                && bikes.equals(((AddressBook) other).bikes));
     }
 
     @Override
     public int hashCode() {
-        return loans.hashCode();
+        // Use Objects.hash()
+        return hash(bikes, loans);
     }
 }
