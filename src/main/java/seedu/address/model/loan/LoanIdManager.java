@@ -113,8 +113,13 @@ public class LoanIdManager {
         }
 
         // If the lastUsedIdValue is equal, all the fields should be equal.
-        assert this.lastUsedLoanId.equals(otherManager.lastUsedLoanId);
+        if (this.lastUsedLoanId == null) {
+            assert otherManager.lastUsedLoanId == null;
+        } else {
+            assert this.lastUsedLoanId.equals(otherManager.lastUsedLoanId);
+        }
         assert this.isMaximumReached == otherManager.isMaximumReached;
+
         return true;
     }
 
