@@ -32,6 +32,11 @@ public class XmlAdaptedLoanId {
         loanId = source.value;
     }
 
+    /**
+     * Converts this JAXB-friendly adapted Loan ID object into the model's LoanId object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted Loan ID.
+     */
     public LoanId toModelType() throws IllegalValueException {
         if (!LoanId.isValidLoanId(loanId)) {
             throw new IllegalValueException(LoanId.MESSAGE_LOANID_CONSTRAINTS);
