@@ -138,6 +138,7 @@ public class LoanIdManager {
         default:
             // Increment the integer value.
             ++lastUsedIdValue;
+            break;
         }
     }
 }

@@ -45,6 +45,7 @@ public class XmlAdaptedLoanIdTest {
 
     @Test
     public void defaultConstructorTest() {
-        new XmlAdaptedLoanId(); // No exception should be thrown.
+        XmlAdaptedLoanId xmlAdaptedLoanId = new XmlAdaptedLoanId(); // No exception should be thrown.
+        assertEquals(xmlAdaptedLoanId, xmlAdaptedLoanId);
     }
 }

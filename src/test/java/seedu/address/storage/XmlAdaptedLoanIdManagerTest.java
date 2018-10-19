@@ -14,7 +14,8 @@ public class XmlAdaptedLoanIdManagerTest {
 
     @Test
     public void defaultConstructorTest() {
-        new XmlAdaptedLoanIdManager(); // No exception should be thrown.
+        XmlAdaptedLoanIdManager xmlManager = new XmlAdaptedLoanIdManager(); // No exception should be thrown.
+        assertEquals(xmlManager, xmlManager);
     }
 
     @Test
