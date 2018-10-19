@@ -2,6 +2,7 @@ package seedu.address.storage;
 
 import javax.xml.bind.annotation.XmlElement;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.loan.LoanId;
 import seedu.address.model.loan.LoanIdManager;
 
 public class XmlAdaptedLoanIdManager {
@@ -27,7 +28,16 @@ public class XmlAdaptedLoanIdManager {
      * Future changes to the specified LoanIdManager will not affect this instance.
      */
     public XmlAdaptedLoanIdManager(LoanIdManager source) {
-        this.lastUsedLoanId = new XmlAdaptedLoanId(source.getLastUsedLoanId());
+        LoanId lastUsedLoanIdModel = source.getLastUsedLoanId();
+        if (lastUsedLoanIdModel == null) {
+            // If the source LoanIdManager has no last used Loan ID,
+            // this instance will also have no last used Loan ID.
+            lastUsedLoanId = null;
+        } else {
+            // Otherwise, convert the last used Loan ID into an
+            // XmlAdaptedLoanId object.
+            lastUsedLoanId = new XmlAdaptedLoanId(lastUsedLoanIdModel);
+        }
     }
 
     /**
@@ -36,7 +46,11 @@ public class XmlAdaptedLoanIdManager {
      * @throws IllegalValueException if there were any data constraints violated during the conversion
      */
     public LoanIdManager toModelType() throws IllegalValueException {
-        return new LoanIdManager(lastUsedLoanId.toModelType());
+        if (lastUsedLoanId == null) {
+            return new LoanIdManager();
+        } else {
+            return new LoanIdManager(lastUsedLoanId.toModelType());
+        }
     }
 
     @Override
