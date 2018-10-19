@@ -2,6 +2,7 @@ package seedu.address.model.loan;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -19,12 +20,15 @@ public class LoanIdManagerTest {
     public void defaultIdManagerConstructorTest() {
         // Create new Loan ID Manager starting from the initial ID value.
         LoanIdManager idManager = new LoanIdManager();
+        assertNull(idManager.getLastUsedLoanId());
         assertTrue(idManager.hasNextAvailableLoanId()); // There should be a next Loan ID
 
         LoanId nextAvailableLoanId = idManager.getNextAvailableLoanId();
         assertEquals(EXPECTED_INITIAL_LOAN_ID, nextAvailableLoanId); // The first Loan ID created should be 0.
+        assertEquals(EXPECTED_INITIAL_LOAN_ID, idManager.getLastUsedLoanId());
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
     public void runningIdFromDefaultConstructorTest() {
         LoanIdManager idManager = new LoanIdManager();
@@ -35,6 +39,7 @@ public class LoanIdManagerTest {
             LoanId actualLoanId = idManager.getNextAvailableLoanId();
 
             assertEquals(expectedLoanId, actualLoanId);
+            assertEquals(expectedLoanId, idManager.getLastUsedLoanId());
             assertEquals(id, (int) actualLoanId.value);
         }
     }
@@ -45,15 +50,18 @@ public class LoanIdManagerTest {
 
         LoanIdManager idManager = new LoanIdManager(lastUsedLoanId);
         assertTrue(idManager.hasNextAvailableLoanId()); // 500 is not the maximum; there should be a next Loan ID
+        assertEquals(lastUsedLoanId, idManager.getLastUsedLoanId());
 
         // The next ID should be 501.
         LoanId nextAvailableLoanId = idManager.getNextAvailableLoanId();
         LoanId expectedLoanId = LoanId.fromInt(501);
 
         assertEquals(expectedLoanId, nextAvailableLoanId);
+        assertEquals(expectedLoanId, idManager.getLastUsedLoanId());
         assertEquals(501, (int) nextAvailableLoanId.value);
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
     public void runningIdFromLastUsedLoanIdTest() {
         int lastUsedIdValue = 2100;
@@ -67,6 +75,7 @@ public class LoanIdManagerTest {
             LoanId actualLoanId = idManager.getNextAvailableLoanId();
 
             assertEquals(expectedLoanId, actualLoanId);
+            assertEquals(expectedLoanId, idManager.getLastUsedLoanId());
             assertEquals(id, (int) actualLoanId.value);
         }
     }
@@ -77,6 +86,7 @@ public class LoanIdManagerTest {
         LoanIdManager idManager = new LoanIdManager(EXPECTED_MAXIMUM_LOAN_ID);
 
         assertFalse(idManager.hasNextAvailableLoanId());
+        assertEquals(EXPECTED_MAXIMUM_LOAN_ID, idManager.getLastUsedLoanId());
         assertThrows(IllegalStateException.class, idManager::getNextAvailableLoanId);
     }
 
@@ -96,6 +106,7 @@ public class LoanIdManagerTest {
 
             // Value check
             assertEquals(expectedLoanId, actualLoanId);
+            assertEquals(expectedLoanId, idManager.getLastUsedLoanId());
             assertEquals(expectedIdValue, (int) actualLoanId.value);
 
             // Maximum check
