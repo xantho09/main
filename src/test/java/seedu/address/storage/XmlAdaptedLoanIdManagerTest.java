@@ -19,26 +19,26 @@ public class XmlAdaptedLoanIdManagerTest {
     @Test
     public void toModelTypeValidTest() throws IllegalValueException {
         // Construct from model's LoanIdManager.
-        LoanIdManager loanIdManager1 = new LoanIdManager(LoanId.fromInt(500));
-        XmlAdaptedLoanIdManager xmlAdaptedLoanIdManager1 = new XmlAdaptedLoanIdManager(loanIdManager1);
+        LoanIdManager modelManager1 = new LoanIdManager(LoanId.fromInt(500));
+        XmlAdaptedLoanIdManager xmlManager1 = new XmlAdaptedLoanIdManager(modelManager1);
 
         // Construct from XmlAdaptedLoanId, exactly the same as above.
-        XmlAdaptedLoanId xmlAdaptedLoanId = new XmlAdaptedLoanId(500);
-        XmlAdaptedLoanIdManager xmlAdaptedLoanIdManager2 = new XmlAdaptedLoanIdManager(xmlAdaptedLoanId);
+        XmlAdaptedLoanId xmlId = new XmlAdaptedLoanId(500);
+        XmlAdaptedLoanIdManager xmlManager2 = new XmlAdaptedLoanIdManager(xmlId);
 
-        assertEquals(loanIdManager1, xmlAdaptedLoanIdManager1.toModelType()); // Converting back into the original
-        assertEquals(loanIdManager1, xmlAdaptedLoanIdManager2.toModelType()); // Converting from XML object to model
+        assertEquals(modelManager1, xmlManager1.toModelType()); // Converting back into the original
+        assertEquals(modelManager1, xmlManager2.toModelType()); // Converting from XML object to model
 
         // Construct a model LoanIdManager with no last used Loan ID (i.e. it starts from the initial Loan ID)
-        LoanIdManager loanIdManager2 = new LoanIdManager();
-        XmlAdaptedLoanIdManager xmlAdaptedLoanIdManager3 = new XmlAdaptedLoanIdManager(loanIdManager2);
+        LoanIdManager modelManager2 = new LoanIdManager();
+        XmlAdaptedLoanIdManager xmlManager3 = new XmlAdaptedLoanIdManager(modelManager2);
 
         // Construct with null as the lastUsedLoanId. When converted to the model type, the output should be a
         // LoanIdManager that starts from the initial Loan ID.
-        XmlAdaptedLoanIdManager xmlAdaptedLoanIdManager4 = new XmlAdaptedLoanIdManager((XmlAdaptedLoanId) null);
+        XmlAdaptedLoanIdManager xmlManager4 = new XmlAdaptedLoanIdManager((XmlAdaptedLoanId) null);
 
-        assertEquals(loanIdManager2, xmlAdaptedLoanIdManager3.toModelType()); // Converting back into the original
-        assertEquals(loanIdManager2, xmlAdaptedLoanIdManager4.toModelType()); // Converting from XML object to model
+        assertEquals(modelManager2, xmlManager3.toModelType()); // Converting back into the original
+        assertEquals(modelManager2, xmlManager4.toModelType()); // Converting from XML object to model
 
     }
 
@@ -52,18 +52,18 @@ public class XmlAdaptedLoanIdManagerTest {
 
     @Test
     public void equalityTest() {
-        LoanIdManager loanIdManager1 = new LoanIdManager(LoanId.fromInt(2103));
-        XmlAdaptedLoanId xmlAdaptedLoanId1 = new XmlAdaptedLoanId(2103);
-        XmlAdaptedLoanId xmlAdaptedLoanId2 = new XmlAdaptedLoanId(9001);
+        LoanIdManager modelManager = new LoanIdManager(LoanId.fromInt(2103));
+        XmlAdaptedLoanId xmlId1 = new XmlAdaptedLoanId(2103);
+        XmlAdaptedLoanId xmlId2 = new XmlAdaptedLoanId(9001);
 
-        XmlAdaptedLoanIdManager xmlAdaptedLoanIdManager1 = new XmlAdaptedLoanIdManager(loanIdManager1);
-        XmlAdaptedLoanIdManager xmlAdaptedLoanIdManager2 = new XmlAdaptedLoanIdManager(xmlAdaptedLoanId1);
-        XmlAdaptedLoanIdManager xmlAdaptedLoanIdManager3 = new XmlAdaptedLoanIdManager(xmlAdaptedLoanId2);
+        XmlAdaptedLoanIdManager xmlManager1 = new XmlAdaptedLoanIdManager(modelManager);
+        XmlAdaptedLoanIdManager xmlManager2 = new XmlAdaptedLoanIdManager(xmlId1);
+        XmlAdaptedLoanIdManager xmlManager3 = new XmlAdaptedLoanIdManager(xmlId2);
 
-        assertEquals(xmlAdaptedLoanIdManager1, xmlAdaptedLoanIdManager1); // Same instance
-        assertEquals(xmlAdaptedLoanIdManager1, xmlAdaptedLoanIdManager2); // Same value
-        assertNotEquals(xmlAdaptedLoanIdManager2, xmlAdaptedLoanIdManager3); // Different last used Loan ID
-        assertNotEquals(xmlAdaptedLoanIdManager2, "Different type");
+        assertEquals(xmlManager1, xmlManager1); // Same instance
+        assertEquals(xmlManager1, xmlManager2); // Same value
+        assertNotEquals(xmlManager2, xmlManager3); // Different last used Loan ID
+        assertNotEquals(xmlManager2, "Different type");
     }
 
 }
