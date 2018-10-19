@@ -14,6 +14,7 @@ public class LoanIdManager {
     private static final int MAXIMUM_ID_VALUE_REACHED = 999999999;
 
     private int lastUsedIdValue;
+    private LoanId lastUsedLoanId;
     private boolean isMaximumReached;
 
     /**
@@ -21,6 +22,7 @@ public class LoanIdManager {
      */
     public LoanIdManager() {
         lastUsedIdValue = NO_LAST_USED_ID_VALUE;
+        lastUsedLoanId = null;
         isMaximumReached = false;
     }
 
@@ -31,14 +33,22 @@ public class LoanIdManager {
      * @param lastUsedLoanId The last used Loan ID.
      */
     public LoanIdManager(LoanId lastUsedLoanId) {
-        if (lastUsedLoanId.isMaximumId()) {
+        if (lastUsedLoanId == null) {
+            isMaximumReached = false;
+            this.lastUsedLoanId = null;
+            lastUsedIdValue = NO_LAST_USED_ID_VALUE;
+
+            return;
+        } else if (lastUsedLoanId.isMaximumId()) {
             isMaximumReached = true;
+            this.lastUsedLoanId = lastUsedLoanId;
             lastUsedIdValue = MAXIMUM_ID_VALUE_REACHED;
 
             return;
         }
 
         isMaximumReached = false;
+        this.lastUsedLoanId = lastUsedLoanId;
         lastUsedIdValue = lastUsedLoanId.value;
     }
 
@@ -61,15 +71,29 @@ public class LoanIdManager {
             throw new IllegalStateException("No more available Loan IDs");
         }
 
+        // Increment the running id value
         incrementLastUsedIdValue();
-        LoanId output = LoanId.fromInt(lastUsedIdValue);
 
+        // Create the output Loan ID
+        LoanId output = LoanId.fromInt(lastUsedIdValue);
+        lastUsedLoanId = output;
+
+        // Update isMaximumReached if applicable
         if (output.isMaximumId()) {
             isMaximumReached = true;
             lastUsedIdValue = MAXIMUM_ID_VALUE_REACHED;
         }
 
         return output;
+    }
+
+    /**
+     * Gets the last used Loan ID, if it exists.
+     *
+     * @return The last used Loan ID if it exists, null otherwise.
+     */
+    public LoanId getLastUsedLoanId() {
+        return lastUsedLoanId;
     }
 
     /**
