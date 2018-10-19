@@ -13,9 +13,11 @@ public class XmlAdaptedLoanIdTest {
     @Test
     public void toModelTypeValidId() throws IllegalValueException {
         LoanId validLoanId = new LoanId("500");
-        XmlAdaptedLoanId xmlAdaptedLoanId = new XmlAdaptedLoanId(validLoanId);
+        XmlAdaptedLoanId xmlAdaptedLoanId1 = new XmlAdaptedLoanId(validLoanId); // Construct from LoanId
+        XmlAdaptedLoanId xmlAdaptedLoanId2 = new XmlAdaptedLoanId(500); // Construct from integer
 
-        assertEquals(validLoanId, xmlAdaptedLoanId.toModelType());
+        assertEquals(validLoanId, xmlAdaptedLoanId1.toModelType());
+        assertEquals(validLoanId, xmlAdaptedLoanId2.toModelType());
     }
 
     @Test
