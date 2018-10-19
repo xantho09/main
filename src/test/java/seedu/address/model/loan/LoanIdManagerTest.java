@@ -2,6 +2,7 @@ package seedu.address.model.loan;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -81,6 +82,20 @@ public class LoanIdManagerTest {
     }
 
     @Test
+    public void constructorWithNullLastUsedIdTest() {
+        LoanIdManager idManagerFromNullId = new LoanIdManager(null);
+        LoanIdManager idManagerFromInitialId = new LoanIdManager();
+
+        assertEquals(idManagerFromInitialId, idManagerFromNullId);
+
+        LoanId expectedLoanId = LoanId.fromInt(0);
+        LoanId actualLoanId = idManagerFromNullId.getNextAvailableLoanId();
+
+        assertEquals(expectedLoanId, actualLoanId);
+        assertEquals(0, (int) actualLoanId.value);
+    }
+
+    @Test
     public void maximumLoanIdTest() {
         // Create an ID manager where the last used ID is the maximum ID.
         LoanIdManager idManager = new LoanIdManager(EXPECTED_MAXIMUM_LOAN_ID);
@@ -120,5 +135,37 @@ public class LoanIdManagerTest {
                 assertTrue(actualLoanId.isMaximumId());
             }
         }
+    }
+
+    @Test
+    public void equalityTest() {
+        LoanIdManager idManagerFromInitialId1 = new LoanIdManager(); // An ID Manager with no last used ID
+        LoanIdManager idManagerFromInitialId2 = new LoanIdManager(); // Same as above
+
+        // An ID Manager with "2103" as the last used ID
+        LoanIdManager idManagerFromLastUsedId1 = new LoanIdManager(LoanId.fromInt(2103));
+        // An ID Manager with "2104" as the last used ID
+        LoanIdManager idManagerFromLastUsedId2 = new LoanIdManager(LoanId.fromInt(2104));
+
+        // An ID Manager with the maximum ID as the last used ID
+        LoanIdManager idManagerWithMaxedId = new LoanIdManager(EXPECTED_MAXIMUM_LOAN_ID);
+        // An ID Manager one call away from reaching the maximum ID
+        LoanIdManager idManagerWithOneFromMaxId = new LoanIdManager(LoanId.fromInt(EXPECTED_MAXIMUM_ID_VALUE - 1));
+
+        assertEquals(idManagerFromInitialId1, idManagerFromInitialId1); // Same instance
+        assertEquals(idManagerFromInitialId1, idManagerFromInitialId2); // Both managers start from the initial ID
+
+        assertNotEquals(idManagerFromInitialId1, idManagerFromLastUsedId1); // Different last used IDs
+        assertNotEquals(idManagerFromLastUsedId1, idManagerFromInitialId1); // Commutativity, in case of Null Pointers
+
+        assertNotEquals(idManagerFromLastUsedId1, idManagerFromLastUsedId2); // Different last used IDs
+        idManagerFromLastUsedId1.getNextAvailableLoanId(); // Increment to next value.
+        assertEquals(idManagerFromLastUsedId1, idManagerFromLastUsedId2); // The last used IDs should now be the same.
+
+        assertNotEquals(idManagerWithMaxedId, idManagerWithOneFromMaxId); // One is maximized; the other is not.
+        idManagerWithOneFromMaxId.getNextAvailableLoanId(); // Increment to next value.
+        assertEquals(idManagerWithMaxedId, idManagerWithOneFromMaxId); // Both should be maximized now.
+
+        assertNotEquals(idManagerFromInitialId1, "Different type");
     }
 }
