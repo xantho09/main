@@ -128,16 +128,16 @@ public class LoanIdManager {
      */
     private void incrementLastUsedIdValue() {
         switch (lastUsedIdValue) {
-            case NO_LAST_USED_ID_VALUE:
-                // Set the value to the first possible Loan ID value.
-                lastUsedIdValue = INITIAL_ID_VALUE;
-                return;
-            case MAXIMUM_ID_VALUE_REACHED:
-                // No further action to be taken.
-                return;
-            default:
-                // Increment the integer value.
-                ++lastUsedIdValue;
+        case NO_LAST_USED_ID_VALUE:
+            // Set the value to the first possible Loan ID value.
+            lastUsedIdValue = INITIAL_ID_VALUE;
+            return;
+        case MAXIMUM_ID_VALUE_REACHED:
+            // No further action to be taken.
+            return;
+        default:
+            // Increment the integer value.
+            ++lastUsedIdValue;
         }
     }
 }

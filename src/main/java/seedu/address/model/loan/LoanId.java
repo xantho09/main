@@ -1,7 +1,6 @@
 package seedu.address.model.loan;
 
 import java.util.function.Predicate;
-import seedu.address.commons.util.AppUtil;
 
 /**
  * Represents a Loan's ID in the address book.
