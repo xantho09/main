@@ -19,6 +19,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 import seedu.address.testutil.LoanBuilder;
 
@@ -89,11 +90,6 @@ public class AddCommandTest {
      */
     private class ModelStub implements Model {
         @Override
-        public void addLoan(Loan loan) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void resetData(ReadOnlyAddressBook newData) {
             throw new AssertionError("This method should not be called.");
         }
@@ -104,7 +100,42 @@ public class AddCommandTest {
         }
 
         @Override
+        public boolean hasBike(Bike bike) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addBike(Bike bike) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteBike(Bike target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateBike(Bike target, Bike editedBike) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Bike> getFilteredBikeList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredBikeList(Predicate<Bike> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean hasLoan(Loan loan) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addLoan(Loan loan) {
             throw new AssertionError("This method should not be called.");
         }
 

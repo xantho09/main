@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 
 /**
@@ -21,6 +22,7 @@ public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final VersionedAddressBook versionedAddressBook;
+    private final FilteredList<Bike> filteredBikes;
     private final FilteredList<Loan> filteredLoans;
 
     /**
@@ -33,6 +35,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
+        filteredBikes = new FilteredList<>(versionedAddressBook.getBikeList());
         filteredLoans = new FilteredList<>(versionedAddressBook.getLoanList());
     }
 
@@ -56,6 +59,53 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new AddressBookChangedEvent(versionedAddressBook));
     }
 
+    //=========== Bike List Mutators =============================================================
+
+    @Override
+    public boolean hasBike(Bike bike) {
+        requireNonNull(bike);
+        return versionedAddressBook.hasBike(bike);
+    }
+
+    @Override
+    public void addBike(Bike bike) {
+        versionedAddressBook.addBike(bike);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public void deleteBike(Bike target) {
+        versionedAddressBook.removeBike(target);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public void updateBike(Bike target, Bike editedBike) {
+        requireAllNonNull(target, editedBike);
+
+        versionedAddressBook.updateBike(target, editedBike);
+        indicateAddressBookChanged();
+    }
+
+    //=========== Filtered Bike List Accessors =============================================================
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Bike} backed by the internal list of
+     * {@code versionedAddressBook}
+     */
+    @Override
+    public ObservableList<Bike> getFilteredBikeList() {
+        return FXCollections.unmodifiableObservableList(filteredBikes);
+    }
+
+    @Override
+    public void updateFilteredBikeList(Predicate<Bike> predicate) {
+        requireNonNull(predicate);
+        filteredBikes.setPredicate(predicate);
+    }
+
+    //=========== Loan List Mutators =============================================================
+
     @Override
     public boolean hasLoan(Loan loan) {
         requireNonNull(loan);
@@ -63,15 +113,15 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void deleteLoan(Loan target) {
-        versionedAddressBook.removeLoan(target);
+    public void addLoan(Loan loan) {
+        versionedAddressBook.addLoan(loan);
+        updateFilteredLoanList(PREDICATE_SHOW_ALL_LOANS);
         indicateAddressBookChanged();
     }
 
     @Override
-    public void addLoan(Loan loan) {
-        versionedAddressBook.addLoan(loan);
-        updateFilteredLoanList(PREDICATE_SHOW_ALL_LOANS);
+    public void deleteLoan(Loan target) {
+        versionedAddressBook.removeLoan(target);
         indicateAddressBookChanged();
     }
 
@@ -144,6 +194,7 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return versionedAddressBook.equals(other.versionedAddressBook)
+                && filteredBikes.equals(other.filteredBikes)
                 && filteredLoans.equals(other.filteredLoans);
     }
 
