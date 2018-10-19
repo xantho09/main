@@ -133,8 +133,8 @@ public class LoanIdManager {
             lastUsedIdValue = INITIAL_ID_VALUE;
             return;
         case MAXIMUM_ID_VALUE_REACHED:
-            // No further action to be taken.
-            return;
+            throw new IllegalStateException("Attempt to increment the last used ID value when it has reached the "
+                    + "maximum possible value");
         default:
             // Increment the integer value.
             ++lastUsedIdValue;
