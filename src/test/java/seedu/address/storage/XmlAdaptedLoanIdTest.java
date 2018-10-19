@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.Test;
+
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.loan.LoanId;
 
