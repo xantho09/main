@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 
 /**
@@ -18,8 +19,11 @@ import seedu.address.model.loan.Loan;
 @XmlRootElement(name = "addressbook")
 public class XmlSerializableAddressBook {
 
+    public static final String MESSAGE_DUPLICATE_BIKE = "Bikes list contains duplicate bike(s).";
     public static final String MESSAGE_DUPLICATE_LOAN = "Loans list contains duplicate loan(s).";
 
+    @XmlElement
+    private List<XmlAdaptedBike> bikes;
     @XmlElement
     private List<XmlAdaptedLoan> loans;
 
@@ -28,6 +32,7 @@ public class XmlSerializableAddressBook {
      * This empty constructor is required for marshalling.
      */
     public XmlSerializableAddressBook() {
+        bikes = new ArrayList<>();
         loans = new ArrayList<>();
     }
 
@@ -36,6 +41,7 @@ public class XmlSerializableAddressBook {
      */
     public XmlSerializableAddressBook(ReadOnlyAddressBook src) {
         this();
+        bikes.addAll(src.getBikeList().stream().map(XmlAdaptedBike::new).collect(Collectors.toList()));
         loans.addAll(src.getLoanList().stream().map(XmlAdaptedLoan::new).collect(Collectors.toList()));
     }
 
@@ -43,10 +49,17 @@ public class XmlSerializableAddressBook {
      * Converts this addressbook into the model's {@code AddressBook} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
-     * {@code XmlAdaptedLoan}.
+     * {@code XmlAdaptedBike} or {@code XmlAdaptedLoan}.
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
+        for (XmlAdaptedBike p : bikes) {
+            Bike bike = p.toModelType();
+            if (addressBook.hasBike(bike)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_BIKE);
+            }
+            addressBook.addBike(bike);
+        }
         for (XmlAdaptedLoan p : loans) {
             Loan loan = p.toModelType();
             if (addressBook.hasLoan(loan)) {
@@ -66,6 +79,7 @@ public class XmlSerializableAddressBook {
         if (!(other instanceof XmlSerializableAddressBook)) {
             return false;
         }
-        return loans.equals(((XmlSerializableAddressBook) other).loans);
+        return bikes.equals(((XmlSerializableAddressBook) other).bikes)
+            && loans.equals(((XmlSerializableAddressBook) other).loans);
     }
 }
