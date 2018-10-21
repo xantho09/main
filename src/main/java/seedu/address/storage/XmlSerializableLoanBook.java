@@ -8,16 +8,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.LoanBook;
+import seedu.address.model.ReadOnlyLoanBook;
 import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 
 /**
- * An Immutable AddressBook that is serializable to XML format
+ * An Immutable LoanBook that is serializable to XML format
  */
-@XmlRootElement(name = "addressbook")
-public class XmlSerializableAddressBook {
+@XmlRootElement(name = "loanbook")
+public class XmlSerializableLoanBook {
 
     public static final String MESSAGE_DUPLICATE_BIKE = "Bikes list contains duplicate bike(s).";
     public static final String MESSAGE_DUPLICATE_LOAN = "Loans list contains duplicate loan(s).";
@@ -28,10 +28,10 @@ public class XmlSerializableAddressBook {
     private List<XmlAdaptedLoan> loans;
 
     /**
-     * Creates an empty XmlSerializableAddressBook.
+     * Creates an empty XmlSerializableLoanBook.
      * This empty constructor is required for marshalling.
      */
-    public XmlSerializableAddressBook() {
+    public XmlSerializableLoanBook() {
         bikes = new ArrayList<>();
         loans = new ArrayList<>();
     }
@@ -39,35 +39,35 @@ public class XmlSerializableAddressBook {
     /**
      * Conversion
      */
-    public XmlSerializableAddressBook(ReadOnlyAddressBook src) {
+    public XmlSerializableLoanBook(ReadOnlyLoanBook src) {
         this();
         bikes.addAll(src.getBikeList().stream().map(XmlAdaptedBike::new).collect(Collectors.toList()));
         loans.addAll(src.getLoanList().stream().map(XmlAdaptedLoan::new).collect(Collectors.toList()));
     }
 
     /**
-     * Converts this addressbook into the model's {@code AddressBook} object.
+     * Converts this loanbook into the model's {@code LoanBook} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
      * {@code XmlAdaptedBike} or {@code XmlAdaptedLoan}.
      */
-    public AddressBook toModelType() throws IllegalValueException {
-        AddressBook addressBook = new AddressBook();
+    public LoanBook toModelType() throws IllegalValueException {
+        LoanBook loanBook = new LoanBook();
         for (XmlAdaptedBike p : bikes) {
             Bike bike = p.toModelType();
-            if (addressBook.hasBike(bike)) {
+            if (loanBook.hasBike(bike)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_BIKE);
             }
-            addressBook.addBike(bike);
+            loanBook.addBike(bike);
         }
         for (XmlAdaptedLoan p : loans) {
             Loan loan = p.toModelType();
-            if (addressBook.hasLoan(loan)) {
+            if (loanBook.hasLoan(loan)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_LOAN);
             }
-            addressBook.addLoan(loan);
+            loanBook.addLoan(loan);
         }
-        return addressBook;
+        return loanBook;
     }
 
     @Override
@@ -75,11 +75,11 @@ public class XmlSerializableAddressBook {
         if (other == this) {
             return true;
         }
-
-        if (!(other instanceof XmlSerializableAddressBook)) {
+        if (!(other instanceof XmlSerializableLoanBook)) {
             return false;
         }
-        return bikes.equals(((XmlSerializableAddressBook) other).bikes)
-            && loans.equals(((XmlSerializableAddressBook) other).loans);
+
+        return bikes.equals(((XmlSerializableLoanBook) other).bikes)
+            && loans.equals(((XmlSerializableLoanBook) other).loans);
     }
 }
