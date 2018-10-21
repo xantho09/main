@@ -23,8 +23,7 @@ public class XmlAdaptedBikeTest {
 
     @Test
     public void toModelTypeInvalidNameThrowsIllegalValueException() {
-        XmlAdaptedBike bike =
-            new XmlAdaptedBike(INVALID_NAME);
+        XmlAdaptedBike bike = new XmlAdaptedBike(INVALID_NAME);
         String expectedMessage = Name.MESSAGE_NAME_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, bike::toModelType);
     }
