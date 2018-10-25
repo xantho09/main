@@ -22,7 +22,7 @@ import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.XmlUtil;
 import seedu.address.model.loan.Loan;
-import seedu.address.storage.XmlSerializableAddressBook;
+import seedu.address.storage.XmlSerializableLoanBook;
 
 public class LoanListPanelTest extends GuiUnitTest {
     private static final ObservableList<Loan> TYPICAL_LOANS =
@@ -46,7 +46,7 @@ public class LoanListPanelTest extends GuiUnitTest {
             LoanCardHandle actualCard = loanListPanelHandle.getLoanCardHandle(i);
 
             assertCardDisplaysLoan(expectedLoan, actualCard);
-            assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
+            assertEquals(Integer.toString(i + 1), actualCard.getId());
         }
     }
 
@@ -81,9 +81,9 @@ public class LoanListPanelTest extends GuiUnitTest {
      */
     private ObservableList<Loan> createBackingList(int loanCount) throws Exception {
         Path xmlFile = createXmlFileWithLoans(loanCount);
-        XmlSerializableAddressBook xmlAddressBook =
-                XmlUtil.getDataFromFile(xmlFile, XmlSerializableAddressBook.class);
-        return FXCollections.observableArrayList(xmlAddressBook.toModelType().getLoanList());
+        XmlSerializableLoanBook xmlLoanBook =
+                XmlUtil.getDataFromFile(xmlFile, XmlSerializableLoanBook.class);
+        return FXCollections.observableArrayList(xmlLoanBook.toModelType().getLoanList());
     }
 
     /**
@@ -92,16 +92,21 @@ public class LoanListPanelTest extends GuiUnitTest {
     private Path createXmlFileWithLoans(int loanCount) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
-        builder.append("<addressbook>\n");
+        builder.append("<loanbook>\n");
         for (int i = 0; i < loanCount; i++) {
             builder.append("<loans>\n");
             builder.append("<name>").append(i).append("a</name>\n");
+            builder.append("<nric>S9249123D</nric>\n");
             builder.append("<phone>000</phone>\n");
             builder.append("<email>a@aa</email>\n");
             builder.append("<address>a</address>\n");
+            builder.append("<loanStatus>ONGOING</loanStatus>");
+            builder.append("<bike>b</bike>\n");
+            builder.append("<rate>1</rate>\n");
+            builder.append("<time>12:00</time>\n");
             builder.append("</loans>\n");
         }
-        builder.append("</addressbook>\n");
+        builder.append("</loanbook>\n");
 
         Path manyLoansFile = Paths.get(TEST_DATA_FOLDER + "manyLoans.xml");
         FileUtil.createFile(manyLoansFile);

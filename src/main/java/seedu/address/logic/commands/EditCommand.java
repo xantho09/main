@@ -2,8 +2,12 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIKE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LOANRATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LOANTIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_LOANS;
@@ -20,15 +24,20 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Address;
 import seedu.address.model.loan.Email;
 import seedu.address.model.loan.Loan;
+import seedu.address.model.loan.LoanRate;
+import seedu.address.model.loan.LoanStatus;
+import seedu.address.model.loan.LoanTime;
 import seedu.address.model.loan.Name;
+import seedu.address.model.loan.Nric;
 import seedu.address.model.loan.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
- * Edits the details of an existing loan in the address book.
+ * Edits the details of an existing loan in the loan book.
  */
 public class EditCommand extends Command {
 
@@ -39,9 +48,13 @@ public class EditCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
+            + "[" + PREFIX_NRIC + "NRIC] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_BIKE + "BIKE] "
+            + "[" + PREFIX_LOANRATE + "LOANRATE] "
+            + "[" + PREFIX_LOANTIME + "LOANTIME] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -49,7 +62,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_LOAN_SUCCESS = "Edited Loan: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_LOAN = "This loan already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_LOAN = "This loan already exists in the loan book.";
 
     private final Index index;
     private final EditLoanDescriptor editLoanDescriptor;
@@ -78,13 +91,13 @@ public class EditCommand extends Command {
         Loan loanToEdit = lastShownList.get(index.getZeroBased());
         Loan editedLoan = createEditedLoan(loanToEdit, editLoanDescriptor);
 
-        if (!loanToEdit.isSameLoan(editedLoan) && model.hasLoan(editedLoan)) {
+        if (!loanToEdit.isSame(editedLoan) && model.hasLoan(editedLoan)) {
             throw new CommandException(MESSAGE_DUPLICATE_LOAN);
         }
 
         model.updateLoan(loanToEdit, editedLoan);
         model.updateFilteredLoanList(PREDICATE_SHOW_ALL_LOANS);
-        model.commitAddressBook();
+        model.commitLoanBook();
         return new CommandResult(String.format(MESSAGE_EDIT_LOAN_SUCCESS, editedLoan));
     }
 
@@ -96,12 +109,26 @@ public class EditCommand extends Command {
         assert loanToEdit != null;
 
         Name updatedName = editLoanDescriptor.getName().orElse(loanToEdit.getName());
+        Nric updatedNric = editLoanDescriptor.getNric().orElse(loanToEdit.getNric());
         Phone updatedPhone = editLoanDescriptor.getPhone().orElse(loanToEdit.getPhone());
         Email updatedEmail = editLoanDescriptor.getEmail().orElse(loanToEdit.getEmail());
         Address updatedAddress = editLoanDescriptor.getAddress().orElse(loanToEdit.getAddress());
+        Bike updatedBike = editLoanDescriptor.getBike().orElse(loanToEdit.getBike());
+        LoanRate updatedRate = editLoanDescriptor.getLoanRate().orElse(loanToEdit.getLoanRate());
+        LoanTime updatedTime = editLoanDescriptor.getLoanTime().orElse(loanToEdit.getLoanTime());
         Set<Tag> updatedTags = editLoanDescriptor.getTags().orElse(loanToEdit.getTags());
+        LoanStatus updatedLoanStatus = editLoanDescriptor.getLoanStatus().orElse(loanToEdit.getLoanStatus());
 
-        return new Loan(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Loan(updatedName,
+                updatedNric,
+                updatedPhone,
+                updatedEmail,
+                updatedAddress,
+                updatedBike,
+                updatedRate,
+                updatedTime,
+                updatedLoanStatus, updatedTags
+        );
     }
 
     @Override
@@ -128,10 +155,15 @@ public class EditCommand extends Command {
      */
     public static class EditLoanDescriptor {
         private Name name;
+        private Nric nric;
         private Phone phone;
         private Email email;
         private Address address;
+        private Bike bike;
+        private LoanRate rate;
+        private LoanTime time;
         private Set<Tag> tags;
+        private LoanStatus loanStatus;
 
         public EditLoanDescriptor() {}
 
@@ -141,10 +173,15 @@ public class EditCommand extends Command {
          */
         public EditLoanDescriptor(EditLoanDescriptor toCopy) {
             setName(toCopy.name);
+            setNric(toCopy.nric);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setBike(toCopy.bike);
+            setLoanRate(toCopy.rate);
+            setLoanTime(toCopy.time);
             setTags(toCopy.tags);
+            setLoanStatus(toCopy.loanStatus);
         }
 
         /**
@@ -160,6 +197,14 @@ public class EditCommand extends Command {
 
         public Optional<Name> getName() {
             return Optional.ofNullable(name);
+        }
+
+        public void setNric(Nric nric) {
+            this.nric = nric;
+        }
+
+        public Optional<Nric> getNric() {
+            return Optional.ofNullable(nric);
         }
 
         public void setPhone(Phone phone) {
@@ -186,6 +231,30 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
+        public void setBike(Bike bike) {
+            this.bike = bike;
+        }
+
+        public Optional<Bike> getBike() {
+            return Optional.ofNullable(bike);
+        }
+
+        public void setLoanRate(LoanRate rate) {
+            this.rate = rate;
+        }
+
+        public Optional<LoanRate> getLoanRate() {
+            return Optional.ofNullable(rate);
+        }
+
+        public void setLoanTime(LoanTime time) {
+            this.time = time;
+        }
+
+        public Optional<LoanTime> getLoanTime() {
+            return Optional.ofNullable(time);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -201,6 +270,14 @@ public class EditCommand extends Command {
          */
         public Optional<Set<Tag>> getTags() {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
+        }
+
+        public void setLoanStatus(LoanStatus loanStatus) {
+            this.loanStatus = loanStatus;
+        }
+
+        public Optional<LoanStatus> getLoanStatus() {
+            return Optional.ofNullable(loanStatus);
         }
 
         @Override
@@ -219,9 +296,13 @@ public class EditCommand extends Command {
             EditLoanDescriptor e = (EditLoanDescriptor) other;
 
             return getName().equals(e.getName())
+                    && getNric().equals(e.getNric())
                     && getPhone().equals(e.getPhone())
                     && getEmail().equals(e.getEmail())
                     && getAddress().equals(e.getAddress())
+                    && getBike().equals(e.getBike())
+                    && getLoanRate().equals(e.getLoanRate())
+                    && getLoanTime().equals(e.getLoanTime())
                     && getTags().equals(e.getTags());
         }
     }
