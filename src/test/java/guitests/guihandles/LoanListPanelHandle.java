@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import java.util.stream.Stream;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
+
 import seedu.address.model.loan.Loan;
 
 /**

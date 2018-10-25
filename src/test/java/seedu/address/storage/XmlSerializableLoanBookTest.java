@@ -2,11 +2,9 @@ package seedu.address.storage;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.xml.bind.JAXBException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -14,7 +12,6 @@ import org.junit.rules.ExpectedException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.XmlUtil;
 import seedu.address.model.LoanBook;
-import seedu.address.model.ReadOnlyLoanBook;
 import seedu.address.testutil.TypicalLoanBook;
 
 public class XmlSerializableLoanBookTest {
@@ -26,7 +23,8 @@ public class XmlSerializableLoanBookTest {
     private static final Path INVALID_LOANSTATUS_FILE = TEST_DATA_FOLDER.resolve("invalidLoanStatusLoanBook.xml");
     private static final Path DUPLICATE_BIKE_FILE = TEST_DATA_FOLDER.resolve("duplicateBikeLoanBook.xml");
     private static final Path DUPLICATE_LOAN_FILE = TEST_DATA_FOLDER.resolve("duplicateLoanLoanBook.xml");
-    private static final Path INVALID_LOAN_ID_MANAGER_FILE = TEST_DATA_FOLDER.resolve("invalidLoanIdManagerLoanBook.xml");
+    private static final Path INVALID_LOAN_ID_MANAGER_FILE =
+            TEST_DATA_FOLDER.resolve("invalidLoanIdManagerLoanBook.xml");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
