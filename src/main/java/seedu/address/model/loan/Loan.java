@@ -9,6 +9,7 @@ import java.util.Set;
 
 import seedu.address.model.UniqueListItem;
 import seedu.address.model.bike.Bike;
+import seedu.address.model.loan.exceptions.SameLoanStatusException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -31,6 +32,23 @@ public class Loan implements UniqueListItem<Loan> {
     private final Email email;
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private LoanStatus loanStatus;
+
+    /**
+     * Every field must be present and not null.
+     * Old constructor that does not take into account the LoanStatus.
+     */
+    public Loan(Name name,
+                Nric nric,
+                Phone phone,
+                Email email,
+                Address address,
+                Bike bike,
+                LoanRate rate,
+                LoanTime time,
+                Set<Tag> tags) {
+        this(name, nric, phone, email, address, bike, rate, time, LoanStatus.ONGOING, tags);
+    }
 
     /**
      * Every field must be present and not null.
@@ -43,8 +61,8 @@ public class Loan implements UniqueListItem<Loan> {
                 Bike bike,
                 LoanRate rate,
                 LoanTime time,
-                Set<Tag> tags) {
-        requireAllNonNull(name, nric, phone, email, address, bike, rate, time, tags);
+                LoanStatus loanStatus, Set<Tag> tags) {
+        requireAllNonNull(name, nric, phone, email, address, bike, rate, time, tags, loanStatus);
         this.name = name;
         this.nric = nric;
         this.phone = phone;
@@ -54,6 +72,9 @@ public class Loan implements UniqueListItem<Loan> {
         this.rate = rate;
         this.time = time;
         this.tags.addAll(tags);
+
+        // Initialise the loan to be ongoing.
+        this.loanStatus = loanStatus;
     }
 
     public Name getName() {
@@ -70,6 +91,10 @@ public class Loan implements UniqueListItem<Loan> {
 
     public Address getAddress() {
         return address;
+    }
+
+    public LoanStatus getLoanStatus() {
+        return loanStatus;
     }
 
     public Nric getNric() {
@@ -94,6 +119,22 @@ public class Loan implements UniqueListItem<Loan> {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Change the loan status to the newStatus as provided.
+     * Throws SameLoanStatusException if the newStatus is the same as the previous status.
+     * @param newStatus
+     * @return true if the function managed to complete.
+     * @throws SameLoanStatusException
+     */
+    public boolean changeLoanStatus(LoanStatus newStatus) throws SameLoanStatusException {
+        if (loanStatus.equals(newStatus)) {
+            throw new SameLoanStatusException();
+        } else {
+            loanStatus = newStatus;
+            return true;
+        }
     }
 
     /**
@@ -133,6 +174,7 @@ public class Loan implements UniqueListItem<Loan> {
                 && otherLoan.getPhone().equals(getPhone())
                 && otherLoan.getEmail().equals(getEmail())
                 && otherLoan.getAddress().equals(getAddress())
+                && otherLoan.getLoanStatus().equals(getLoanStatus())
                 && otherLoan.getBike().equals(getBike())
                 && otherLoan.getLoanRate().equals(getLoanRate())
                 && otherLoan.getLoanTime().equals(getLoanTime())
@@ -142,7 +184,7 @@ public class Loan implements UniqueListItem<Loan> {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, nric, phone, email, address, bike, rate, time, tags);
+        return Objects.hash(name, nric, phone, email, address, bike, rate, time, tags, loanStatus);
     }
 
     @Override
@@ -157,6 +199,8 @@ public class Loan implements UniqueListItem<Loan> {
                 .append(getEmail())
                 .append(" Address: ")
                 .append(getAddress())
+                .append(" Status: ")
+                .append(getLoanStatus())
                 .append(" Bike: ")
                 .append(getBike())
                 .append(" LoanRate: ")
