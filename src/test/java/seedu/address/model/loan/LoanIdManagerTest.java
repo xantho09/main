@@ -168,4 +168,18 @@ public class LoanIdManagerTest {
 
         assertNotEquals(idManagerFromInitialId1, "Different type");
     }
+
+    @Test
+    public void setFromExistingManagerTest() {
+        LoanIdManager existingIdManager = new LoanIdManager(LoanId.fromInt(500));
+        LoanIdManager managerToSet = new LoanIdManager(LoanId.fromInt(2103));
+
+        assertEquals(LoanId.fromInt(2104), managerToSet.getNextAvailableLoanId());
+
+        managerToSet.setFromExistingManager(existingIdManager);
+
+        assertEquals(LoanId.fromInt(501), managerToSet.getNextAvailableLoanId());
+        assertEquals(LoanId.fromInt(500), existingIdManager.getLastUsedLoanId());
+
+    }
 }

@@ -94,4 +94,7 @@
         <rate>5.05</rate>
         <time>2013-03-13 12:08</time>
     </loans>
+    <loanIdManager>
+        <lastUsedLoanId>765</lastUsedLoanId>
+    </loanIdManager>
 </loanbook>

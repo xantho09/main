@@ -22,6 +22,7 @@ import seedu.address.model.Password;
 import seedu.address.model.ReadOnlyLoanBook;
 import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
+import seedu.address.model.loan.LoanId;
 import seedu.address.testutil.LoanBuilder;
 
 public class AddCommandTest {
@@ -192,6 +193,16 @@ public class AddCommandTest {
 
         @Override
         public String getPass() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public LoanId getNextAvailableId() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasNextAvailableId() {
             throw new AssertionError("This method should not be called.");
         }
     }

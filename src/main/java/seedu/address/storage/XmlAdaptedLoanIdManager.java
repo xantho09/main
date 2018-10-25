@@ -67,6 +67,10 @@ public class XmlAdaptedLoanIdManager {
             return false;
         }
 
-        return lastUsedLoanId.equals(((XmlAdaptedLoanIdManager) other).lastUsedLoanId);
+        if (lastUsedLoanId == null) {
+            return ((XmlAdaptedLoanIdManager) other).lastUsedLoanId == null;
+        } else {
+            return lastUsedLoanId.equals(((XmlAdaptedLoanIdManager) other).lastUsedLoanId);
+        }
     }
 }

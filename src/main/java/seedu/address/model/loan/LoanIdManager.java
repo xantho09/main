@@ -33,23 +33,14 @@ public class LoanIdManager {
      * @param lastUsedLoanId The last used Loan ID.
      */
     public LoanIdManager(LoanId lastUsedLoanId) {
-        if (lastUsedLoanId == null) {
-            isMaximumReached = false;
-            this.lastUsedLoanId = null;
-            lastUsedIdValue = NO_LAST_USED_ID_VALUE;
+        setFromLoanId(lastUsedLoanId);
+    }
 
-            return;
-        } else if (lastUsedLoanId.isMaximumId()) {
-            isMaximumReached = true;
-            this.lastUsedLoanId = lastUsedLoanId;
-            lastUsedIdValue = MAXIMUM_ID_VALUE_REACHED;
-
-            return;
-        }
-
-        isMaximumReached = false;
-        this.lastUsedLoanId = lastUsedLoanId;
-        lastUsedIdValue = lastUsedLoanId.value;
+    /**
+     * Sets the current state of this Loan ID Manager to match the state of the specified existing manager.
+     */
+    public void setFromExistingManager(LoanIdManager existingManager) {
+        setFromLoanId(existingManager.getLastUsedLoanId());
     }
 
     /**
@@ -140,5 +131,28 @@ public class LoanIdManager {
             ++lastUsedIdValue;
             break;
         }
+    }
+
+    /**
+     * Set the current state of this Loan ID Manager from the specified last used Loan ID.
+     */
+    private void setFromLoanId(LoanId lastUsedLoanId) {
+        if (lastUsedLoanId == null) {
+            isMaximumReached = false;
+            this.lastUsedLoanId = null;
+            lastUsedIdValue = NO_LAST_USED_ID_VALUE;
+
+            return;
+        } else if (lastUsedLoanId.isMaximumId()) {
+            isMaximumReached = true;
+            this.lastUsedLoanId = lastUsedLoanId;
+            lastUsedIdValue = MAXIMUM_ID_VALUE_REACHED;
+
+            return;
+        }
+
+        isMaximumReached = false;
+        this.lastUsedLoanId = lastUsedLoanId;
+        lastUsedIdValue = lastUsedLoanId.value;
     }
 }
