@@ -47,7 +47,9 @@ public class XmlAdaptedLoan {
     @XmlElement(required = true)
     private String rate;
     @XmlElement(required = true)
-    private String time;
+    private String startTime;
+    @XmlElement
+    private String endTime;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -68,7 +70,8 @@ public class XmlAdaptedLoan {
                           String address,
                           String bike,
                           String rate,
-                          String time,
+                          String startTime,
+                          String endTime,
                           String loanStatus,
                           List<XmlAdaptedTag> tagged) {
         this.name = name;
@@ -78,7 +81,9 @@ public class XmlAdaptedLoan {
         this.address = address;
         this.bike = bike;
         this.rate = rate;
-        this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.loanStatus = loanStatus;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -102,6 +107,23 @@ public class XmlAdaptedLoan {
     }
 
     /**
+     * Constructs an {@code XmlAdaptedLoan} with the given loan details.
+     * This constructor is called if no loanStatus is given
+     */
+    public XmlAdaptedLoan(String name,
+                          String nric,
+                          String phone,
+                          String email,
+                          String address,
+                          String bike,
+                          String rate,
+                          String startTime,
+                          String endTime,
+                          List<XmlAdaptedTag> tagged) {
+        this(name, nric, phone, email, address, bike, rate, startTime, endTime, "ONGOING", tagged);
+    }
+
+    /**
      * Converts a given Loan into this class for JAXB use.
      *
      * @param source future changes to this will not affect the created XmlAdaptedLoan
@@ -114,7 +136,8 @@ public class XmlAdaptedLoan {
         address = source.getAddress().value;
         bike = source.getBike().getName().value;
         rate = source.getLoanRate().toString();
-        time = source.getLoanTime().toString();
+        startTime = source.getLoanStartTime().toString();
+        endTime = source.getLoanEndTime() == null ? null : source.getLoanEndTime().toString();
         tagged = source.getTags().stream()
                 .map(XmlAdaptedTag::new)
                 .collect(Collectors.toList());
@@ -141,6 +164,34 @@ public class XmlAdaptedLoan {
         }
         if (!isValid.test(field)) {
             throw new IllegalValueException(msgConstraints);
+        }
+    }
+    /**
+     * Throws an {@code IllegalValueException} if {@code startTime} does not exist or is not valid.
+     *
+     * @throws IllegalValueException
+     */
+    private void checkLoanStartTimeValid() throws IllegalValueException {
+        if (startTime == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    LoanTime.class.getSimpleName()));
+        }
+        if (!LoanTime.isValidLoanTime(startTime)) {
+            throw new IllegalValueException(LoanTime.MESSAGE_LOANTIME_CONSTRAINTS);
+        }
+    }
+
+    /**
+     * Throws an {@code IllegalValueException} if {@code endTime} does not exist or is not valid.
+     *
+     * @throws IllegalValueException
+     */
+    private void checkLoanEndTimeValid() throws IllegalValueException {
+        if (endTime == null) {
+            return; // Because endTime can be null
+        }
+        if (!LoanTime.isValidLoanTime(endTime)) {
+            throw new IllegalValueException(LoanTime.MESSAGE_LOANTIME_CONSTRAINTS);
         }
     }
 
@@ -180,8 +231,11 @@ public class XmlAdaptedLoan {
         checkFieldValid(rate, LoanRate.class, LoanRate::isValidRate, LoanRate.MESSAGE_LOANRATE_CONSTRAINTS);
         final LoanRate modelRate = new LoanRate(rate);
 
-        checkFieldValid(time, LoanTime.class, LoanTime::isValidLoanTime, LoanTime.MESSAGE_LOANTIME_CONSTRAINTS);
-        final LoanTime modelTime = new LoanTime(time);
+        checkLoanStartTimeValid();
+        final LoanTime modelStartTime = new LoanTime(startTime);
+
+        checkLoanEndTimeValid();
+        final LoanTime modelEndTime = endTime == null ? null : new LoanTime(endTime);
 
         final Set<Tag> modelTags = new HashSet<>(loanTags);
         return new Loan(modelName,
@@ -191,11 +245,11 @@ public class XmlAdaptedLoan {
                 modelAddress,
                 modelBike,
                 modelRate,
-                modelTime,
+                modelStartTime,
+                modelEndTime,
                 modelLoanStatus,
                 modelTags
         );
-
     }
 
     @Override
@@ -216,7 +270,8 @@ public class XmlAdaptedLoan {
                 && Objects.equals(address, otherLoan.address)
                 && Objects.equals(bike, otherLoan.bike)
                 && Objects.equals(rate, otherLoan.rate)
-                && Objects.equals(time, otherLoan.time)
+                && Objects.equals(startTime, otherLoan.startTime)
+                && Objects.equals(endTime, otherLoan.endTime)
                 && tagged.equals(otherLoan.tagged);
     }
 }
