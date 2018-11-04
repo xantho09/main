@@ -105,6 +105,12 @@ public class ModelManager extends ComponentManager implements Model {
         indicateLoanBookChanged();
     }
 
+    @Override
+    public void resetBikes() {
+        setBikes(Collections.emptyList());
+        // Change has already been indicated in the above command.
+    }
+
     //=========== Filtered Bike List Accessors =============================================================
 
     /**
@@ -150,7 +156,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     /**
-     * Clears the loan list and resets the loan ID.
+     * Clears the loan list.
      */
     @Override
     public void resetLoans() {

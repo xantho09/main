@@ -63,6 +63,11 @@ public interface Model {
     void setBikes(List<Bike> bikes);
 
     /**
+     * Clears the bike list.
+     */
+    void resetBikes();
+
+    /**
      * Updates the filter of the filtered bike list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
@@ -134,7 +139,7 @@ public interface Model {
     void setLoans(List<Loan> loans);
 
     /**
-     * Clears the loan list and resets the loan ID.
+     * Clears the loan list.
      */
     void resetLoans();
 
