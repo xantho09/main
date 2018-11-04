@@ -10,7 +10,7 @@ import loanbook.model.Model;
 import loanbook.model.Password;
 
 /**
- * Deletes a loan identified using it's displayed index from the loan book.
+ * Clears the loans and bikes and resets the loan ID in the loan book.
  */
 public class ResetAllCommand extends Command {
 
