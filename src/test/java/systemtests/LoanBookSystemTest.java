@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import loanbook.logic.commands.ResetCommand;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -38,6 +37,7 @@ import loanbook.commons.core.index.Index;
 import loanbook.logic.commands.FindCommand;
 import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
+import loanbook.logic.commands.ResetCommand;
 import loanbook.logic.commands.SelectCommand;
 import loanbook.model.LoanBook;
 import loanbook.model.Model;

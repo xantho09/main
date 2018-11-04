@@ -4,11 +4,11 @@ import static loanbook.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static loanbook.testutil.TypicalBikes.getTypicalBikes;
 import static loanbook.testutil.TypicalLoans.KEYWORD_MATCHING_MEIER;
 
-import loanbook.logic.commands.ResetCommand;
 import org.junit.Test;
 
 import loanbook.commons.core.index.Index;
 import loanbook.logic.commands.RedoCommand;
+import loanbook.logic.commands.ResetCommand;
 import loanbook.logic.commands.UndoCommand;
 import loanbook.model.Model;
 import loanbook.model.ModelManager;

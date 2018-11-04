@@ -4,9 +4,10 @@ import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static loanbook.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static loanbook.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import org.junit.Test;
+
 import loanbook.logic.commands.ResetAllCommand;
 import loanbook.model.Password;
-import org.junit.Test;
 
 public class ResetAllCommandParserTest {
 

@@ -6,13 +6,14 @@ import static loanbook.testutil.TypicalLoanBook.getTypicalLoanBook;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import org.junit.Test;
+
 import loanbook.commons.core.Messages;
 import loanbook.logic.CommandHistory;
 import loanbook.model.Model;
 import loanbook.model.ModelManager;
 import loanbook.model.Password;
 import loanbook.model.UserPrefs;
-import org.junit.Test;
 
 public class ResetAllCommandTest {
 

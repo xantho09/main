@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import loanbook.logic.commands.ResetCommand;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -36,6 +35,7 @@ import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
 import loanbook.logic.commands.RedoCommand;
 import loanbook.logic.commands.RemindCommand;
+import loanbook.logic.commands.ResetCommand;
 import loanbook.logic.commands.SelectCommand;
 import loanbook.logic.commands.SetEmailCommand;
 import loanbook.logic.commands.UndoCommand;
