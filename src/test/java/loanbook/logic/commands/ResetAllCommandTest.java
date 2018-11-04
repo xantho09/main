@@ -62,7 +62,7 @@ public class ResetAllCommandTest {
         assertEquals(resetAllCommand1, resetAllCommand2); // Same password
         assertNotEquals(resetAllCommand1, resetAllCommand3); // Different password
 
-        assertNotEquals(resetAllCommand1, new ResetCommand()); // Different types
+        assertNotEquals(resetAllCommand1, new ResetLoansCommand()); // Different types
     }
 
 }

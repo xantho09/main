@@ -131,7 +131,7 @@ public class RemindCommandTest {
         assertFalse(standardCommand.equals(null));
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ResetCommand()));
+        assertFalse(standardCommand.equals(new ResetLoansCommand()));
 
         // different value -> returns false
         assertFalse(standardCommand.equals(

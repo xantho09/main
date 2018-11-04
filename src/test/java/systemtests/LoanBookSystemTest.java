@@ -37,7 +37,7 @@ import loanbook.commons.core.index.Index;
 import loanbook.logic.commands.FindCommand;
 import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
-import loanbook.logic.commands.ResetCommand;
+import loanbook.logic.commands.ResetLoansCommand;
 import loanbook.logic.commands.SelectCommand;
 import loanbook.model.LoanBook;
 import loanbook.model.Model;
@@ -175,7 +175,7 @@ public abstract class LoanBookSystemTest {
      * Deletes all loans in the loan book.
      */
     protected void deleteAllLoans() {
-        executeCommand(ResetCommand.COMMAND_WORD);
+        executeCommand(ResetLoansCommand.COMMAND_WORD);
         assertEquals(0, getModel().getLoanBook().getLoanList().size());
     }
 

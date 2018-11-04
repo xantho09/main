@@ -23,7 +23,7 @@ import loanbook.logic.commands.ListCommand;
 import loanbook.logic.commands.RedoCommand;
 import loanbook.logic.commands.RemindCommand;
 import loanbook.logic.commands.ResetAllCommand;
-import loanbook.logic.commands.ResetCommand;
+import loanbook.logic.commands.ResetLoansCommand;
 import loanbook.logic.commands.ReturnCommand;
 import loanbook.logic.commands.SearchCommand;
 import loanbook.logic.commands.SelectCommand;
@@ -83,8 +83,8 @@ public class LoanBookParser {
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
 
-        case ResetCommand.COMMAND_WORD:
-            return new ResetCommand();
+        case ResetLoansCommand.COMMAND_WORD:
+            return new ResetLoansCommand();
 
         case ResetAllCommand.COMMAND_WORD:
             return new ResetAllCommandParser().parse(arguments);

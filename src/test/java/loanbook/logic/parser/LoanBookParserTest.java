@@ -35,7 +35,7 @@ import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
 import loanbook.logic.commands.RedoCommand;
 import loanbook.logic.commands.RemindCommand;
-import loanbook.logic.commands.ResetCommand;
+import loanbook.logic.commands.ResetLoansCommand;
 import loanbook.logic.commands.SelectCommand;
 import loanbook.logic.commands.SetEmailCommand;
 import loanbook.logic.commands.UndoCommand;
@@ -75,8 +75,8 @@ public class LoanBookParserTest {
 
     @Test
     public void parseCommand_clear() throws Exception {
-        assertTrue(parser.parseCommand(ResetCommand.COMMAND_WORD) instanceof ResetCommand);
-        assertTrue(parser.parseCommand(ResetCommand.COMMAND_WORD + " 3") instanceof ResetCommand);
+        assertTrue(parser.parseCommand(ResetLoansCommand.COMMAND_WORD) instanceof ResetLoansCommand);
+        assertTrue(parser.parseCommand(ResetLoansCommand.COMMAND_WORD + " 3") instanceof ResetLoansCommand);
     }
 
     @Test

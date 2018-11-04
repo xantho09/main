@@ -10,7 +10,7 @@ import loanbook.model.Model;
 import loanbook.model.ModelManager;
 import loanbook.model.UserPrefs;
 
-public class ResetCommandTest {
+public class ResetLoansCommandTest {
 
     private CommandHistory commandHistory = new CommandHistory();
 
@@ -20,7 +20,8 @@ public class ResetCommandTest {
         Model expectedModel = new ModelManager();
         expectedModel.commitLoanBook();
 
-        assertCommandSuccess(new ResetCommand(), model, commandHistory, ResetCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ResetLoansCommand(), model, commandHistory, ResetLoansCommand.MESSAGE_SUCCESS,
+                expectedModel);
     }
 
     @Test
@@ -31,7 +32,8 @@ public class ResetCommandTest {
         expectedModel.resetId();
         expectedModel.commitLoanBook();
 
-        assertCommandSuccess(new ResetCommand(), model, commandHistory, ResetCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ResetLoansCommand(), model, commandHistory, ResetLoansCommand.MESSAGE_SUCCESS,
+                expectedModel);
     }
 
 }
