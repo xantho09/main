@@ -28,6 +28,7 @@ public class ClearCommandTest {
         Model model = new ModelManager(getTypicalLoanBook(), new UserPrefs());
         Model expectedModel = new ModelManager(getTypicalLoanBook(), new UserPrefs());
         expectedModel.resetLoans();
+        expectedModel.resetId();
         expectedModel.commitLoanBook();
 
         assertCommandSuccess(new ClearCommand(), model, commandHistory, ClearCommand.MESSAGE_SUCCESS, expectedModel);

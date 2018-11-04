@@ -155,7 +155,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void resetLoans() {
         setLoans(Collections.emptyList());
-        resetId();
         // Change has already been indicated in the above commands
     }
 
