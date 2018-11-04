@@ -21,6 +21,7 @@ import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
 import loanbook.logic.commands.RedoCommand;
 import loanbook.logic.commands.RemindCommand;
+import loanbook.logic.commands.ResetAllCommand;
 import loanbook.logic.commands.ReturnCommand;
 import loanbook.logic.commands.SearchCommand;
 import loanbook.logic.commands.SelectCommand;
@@ -76,6 +77,9 @@ public class LoanBookParser {
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
+
+        case ResetAllCommand.COMMAND_WORD:
+            return new ResetAllCommandParser().parse(arguments);
 
         case SearchCommand.COMMAND_WORD:
             return new SearchCommandParser().parse(arguments);
