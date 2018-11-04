@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import loanbook.logic.commands.ResetCommand;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -34,7 +35,6 @@ import loanbook.MainApp;
 import loanbook.TestApp;
 import loanbook.commons.core.EventsCenter;
 import loanbook.commons.core.index.Index;
-import loanbook.logic.commands.ClearCommand;
 import loanbook.logic.commands.FindCommand;
 import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
@@ -172,10 +172,10 @@ public abstract class LoanBookSystemTest {
     }
 
     /**
-     * Deletes everything in the loan book.
+     * Deletes all loans in the loan book.
      */
     protected void deleteAllLoans() {
-        executeCommand(ClearCommand.COMMAND_WORD);
+        executeCommand(ResetCommand.COMMAND_WORD);
         assertEquals(0, getModel().getLoanBook().getLoanList().size());
     }
 

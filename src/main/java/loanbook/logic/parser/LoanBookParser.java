@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import loanbook.logic.commands.AddBikeCommand;
 import loanbook.logic.commands.AddCommand;
 import loanbook.logic.commands.CheckEmailCommand;
-import loanbook.logic.commands.ClearCommand;
+import loanbook.logic.commands.ResetCommand;
 import loanbook.logic.commands.Command;
 import loanbook.logic.commands.DeleteCommand;
 import loanbook.logic.commands.EditCommand;
@@ -75,8 +75,8 @@ public class LoanBookParser {
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
 
-        case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
+        case ResetCommand.COMMAND_WORD:
+            return new ResetCommand();
 
         case ResetAllCommand.COMMAND_WORD:
             return new ResetAllCommandParser().parse(arguments);

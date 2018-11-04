@@ -8,9 +8,9 @@ import loanbook.model.Model;
 /**
  * Clears the loans and resets the loan ID in the loan book.
  */
-public class ClearCommand extends Command {
+public class ResetCommand extends Command {
 
-    public static final String COMMAND_WORD = "clear";
+    public static final String COMMAND_WORD = "reset";
     public static final String MESSAGE_SUCCESS = "Loan book has been cleared!";
 
 

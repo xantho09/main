@@ -79,7 +79,7 @@ public class ReturnCommandTest {
         assertFalse(standardCommand.equals(null));
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
+        assertFalse(standardCommand.equals(new ResetCommand()));
 
         // different index -> returns false
         assertFalse(standardCommand.equals(new ReturnCommand(INDEX_SECOND_LOAN)));

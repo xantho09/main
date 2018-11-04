@@ -4,16 +4,16 @@ import static loanbook.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static loanbook.testutil.TypicalBikes.getTypicalBikes;
 import static loanbook.testutil.TypicalLoans.KEYWORD_MATCHING_MEIER;
 
+import loanbook.logic.commands.ResetCommand;
 import org.junit.Test;
 
 import loanbook.commons.core.index.Index;
-import loanbook.logic.commands.ClearCommand;
 import loanbook.logic.commands.RedoCommand;
 import loanbook.logic.commands.UndoCommand;
 import loanbook.model.Model;
 import loanbook.model.ModelManager;
 
-public class ClearCommandSystemTest extends LoanBookSystemTest {
+public class ResetCommandSystemTest extends LoanBookSystemTest {
 
     /**
      * The clear command resets the loans and loan ID only.
@@ -32,7 +32,7 @@ public class ClearCommandSystemTest extends LoanBookSystemTest {
         /* Case: clear non-empty loan book, command with leading spaces and trailing alphanumeric characters and
          * spaces -> cleared
          */
-        assertCommandSuccess("   " + ClearCommand.COMMAND_WORD + " ab12   ");
+        assertCommandSuccess("   " + ResetCommand.COMMAND_WORD + " ab12   ");
         assertSelectedCardUnchanged();
 
         /* Case: undo clearing loan book -> original loan book restored */
@@ -50,17 +50,17 @@ public class ClearCommandSystemTest extends LoanBookSystemTest {
         /* Case: selects first card in loan list and clears loan book -> cleared and no card selected */
         executeCommand(UndoCommand.COMMAND_WORD); // restores the original loan book
         selectLoan(Index.fromOneBased(1));
-        assertCommandSuccess(ClearCommand.COMMAND_WORD);
+        assertCommandSuccess(ResetCommand.COMMAND_WORD);
         assertSelectedCardDeselected();
 
         /* Case: filters the loan list before clearing -> entire loan book cleared */
         executeCommand(UndoCommand.COMMAND_WORD); // restores the original loan book
         showLoansWithName(KEYWORD_MATCHING_MEIER);
-        assertCommandSuccess(ClearCommand.COMMAND_WORD);
+        assertCommandSuccess(ResetCommand.COMMAND_WORD);
         assertSelectedCardUnchanged();
 
         /* Case: clear empty loan book -> cleared */
-        assertCommandSuccess(ClearCommand.COMMAND_WORD);
+        assertCommandSuccess(ResetCommand.COMMAND_WORD);
         assertSelectedCardUnchanged();
 
         /* Case: mixed case command word -> rejected */
@@ -69,20 +69,20 @@ public class ClearCommandSystemTest extends LoanBookSystemTest {
 
     /**
      * Executes {@code command} and verifies that the command box displays an empty string, the result display
-     * box displays {@code ClearCommand#MESSAGE_SUCCESS} and the model related components equal to a cleared model.
+     * box displays {@code ResetCommand#MESSAGE_SUCCESS} and the model related components equal to a cleared model.
      * These verifications are done by
      * {@code LoanBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
      * Also verifies that the command box has the default style class and the status bar's sync status changes.
      * @see LoanBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandSuccess(String command) {
-        assertCommandSuccess(command, ClearCommand.MESSAGE_SUCCESS, clearedModel);
+        assertCommandSuccess(command, ResetCommand.MESSAGE_SUCCESS, clearedModel);
     }
 
     /**
      * Performs the same verification as {@code assertCommandSuccess(String)} except that the result box displays
      * {@code expectedResultMessage} and the model related components equal to {@code expectedModel}.
-     * @see ClearCommandSystemTest#assertCommandSuccess(String)
+     * @see ResetCommandSystemTest#assertCommandSuccess(String)
      */
     private void assertCommandSuccess(String command, String expectedResultMessage, Model expectedModel) {
         executeCommand(command);

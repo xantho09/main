@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import loanbook.logic.commands.ResetCommand;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,7 +25,6 @@ import org.junit.rules.ExpectedException;
 import loanbook.logic.commands.AddBikeCommand;
 import loanbook.logic.commands.AddCommand;
 import loanbook.logic.commands.CheckEmailCommand;
-import loanbook.logic.commands.ClearCommand;
 import loanbook.logic.commands.DeleteCommand;
 import loanbook.logic.commands.EditCommand;
 import loanbook.logic.commands.EditCommand.EditLoanDescriptor;
@@ -75,8 +75,8 @@ public class LoanBookParserTest {
 
     @Test
     public void parseCommand_clear() throws Exception {
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3") instanceof ClearCommand);
+        assertTrue(parser.parseCommand(ResetCommand.COMMAND_WORD) instanceof ResetCommand);
+        assertTrue(parser.parseCommand(ResetCommand.COMMAND_WORD + " 3") instanceof ResetCommand);
     }
 
     @Test
