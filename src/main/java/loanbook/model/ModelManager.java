@@ -302,4 +302,14 @@ public class ModelManager extends ComponentManager implements Model {
                 && filteredLoans.equals(other.filteredLoans);
     }
 
+    @Override
+    public String toString() {
+        return logger
+            + ", " + versionedLoanBook
+            + ", " + filteredBikes
+            + ", " + filteredLoans
+            + ", " + preference;
+
+    }
+
 }
