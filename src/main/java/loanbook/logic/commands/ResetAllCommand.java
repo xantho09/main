@@ -3,7 +3,6 @@ package loanbook.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
 
-import loanbook.commons.core.Messages;
 import loanbook.logic.CommandHistory;
 import loanbook.logic.commands.exceptions.CommandException;
 import loanbook.model.Model;
@@ -12,7 +11,7 @@ import loanbook.model.Password;
 /**
  * Clears the loans and bikes and resets the loan ID in the loan book.
  */
-public class ResetAllCommand extends Command {
+public class ResetAllCommand extends PasswordProtectedCommand {
 
     public static final String COMMAND_WORD = "resetall";
 
@@ -22,33 +21,28 @@ public class ResetAllCommand extends Command {
             + "Parameters: " + PREFIX_PASSWORD + "PASSWORD\n"
             + "Example: " + COMMAND_WORD + " x/a12345";
 
-    public static final String MESSAGE_RESET_SUCCESS = "Loan book has been successfully reset!";
-
-    private final Password targetPassword;
+    public static final String MESSAGE_RESET_ALL_SUCCESS = "Loan book has been successfully reset!";
 
     public ResetAllCommand(Password pass) {
-        targetPassword = pass;
+        super(pass);
     }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
-
-        if (!Password.isSamePassword(model.getPass(), targetPassword)) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PASSWORD);
-        }
+        assertCorrectPassword(model);
 
         model.resetLoans();
         model.resetBikes();
         model.resetId();
         model.commitLoanBook();
-        return new CommandResult(MESSAGE_RESET_SUCCESS);
+        return new CommandResult(MESSAGE_RESET_ALL_SUCCESS);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ResetAllCommand // instanceof handles nulls
-                && targetPassword.equals(((ResetAllCommand) other).targetPassword)); // state check
+                && super.equals(other)); // state check
     }
 }
