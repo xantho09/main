@@ -111,6 +111,11 @@ public class ModelManager extends ComponentManager implements Model {
         // Change has already been indicated in the above command.
     }
 
+    @Override
+    public Optional<Loan> getLoanById(LoanId loanId) {
+        return versionedLoanBook.getLoanById(loanId);
+    }
+
     //=========== Filtered Bike List Accessors =============================================================
 
     /**
