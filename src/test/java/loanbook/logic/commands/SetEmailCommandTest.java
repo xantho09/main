@@ -122,7 +122,7 @@ public class SetEmailCommandTest {
         assertFalse(standardCommandWithDefault.equals(null));
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ResetLoansCommand()));
+        assertFalse(standardCommand.equals(new ListCommand()));
         assertFalse(standardCommandWithDefault.equals(new UndoCommand()));
 
         // different value -> returns false

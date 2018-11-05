@@ -84,7 +84,7 @@ public class LoanBookParser {
             return new DeleteCommandParser().parse(arguments);
 
         case ResetLoansCommand.COMMAND_WORD:
-            return new ResetLoansCommand();
+            return new ResetLoansCommandParser().parse(arguments);
 
         case ResetAllCommand.COMMAND_WORD:
             return new ResetAllCommandParser().parse(arguments);

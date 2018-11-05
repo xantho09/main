@@ -9,6 +9,7 @@ import static loanbook.logic.commands.CommandTestUtil.PASSWORD2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL1;
+import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static loanbook.testutil.TypicalIndexes.INDEX_FIRST_LOAN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -75,8 +76,13 @@ public class LoanBookParserTest {
 
     @Test
     public void parseCommand_clear() throws Exception {
-        assertTrue(parser.parseCommand(ResetLoansCommand.COMMAND_WORD) instanceof ResetLoansCommand);
-        assertTrue(parser.parseCommand(ResetLoansCommand.COMMAND_WORD + " 3") instanceof ResetLoansCommand);
+        String samplePasswordUserInput = "a12345";
+        Password samplePassword = new Password(samplePasswordUserInput);
+
+        ResetLoansCommand expectedCommand = new ResetLoansCommand(samplePassword);
+
+        assertEquals(expectedCommand,
+                parser.parseCommand(ResetLoansCommand.COMMAND_WORD + " " + PREFIX_PASSWORD + samplePasswordUserInput));
     }
 
     @Test

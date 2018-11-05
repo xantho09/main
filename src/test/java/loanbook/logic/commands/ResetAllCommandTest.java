@@ -28,7 +28,7 @@ public class ResetAllCommandTest {
         expectedModel.commitLoanBook();
 
         assertCommandSuccess(new ResetAllCommand(CORRECT_PASSWORD), model, commandHistory,
-                ResetAllCommand.MESSAGE_RESET_SUCCESS, expectedModel);
+                ResetAllCommand.MESSAGE_RESET_ALL_SUCCESS, expectedModel);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class ResetAllCommandTest {
         expectedModel.commitLoanBook();
 
         assertCommandSuccess(new ResetAllCommand(CORRECT_PASSWORD), model, commandHistory,
-                ResetAllCommand.MESSAGE_RESET_SUCCESS, expectedModel);
+                ResetAllCommand.MESSAGE_RESET_ALL_SUCCESS, expectedModel);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class ResetAllCommandTest {
         assertEquals(resetAllCommand1, resetAllCommand2); // Same password
         assertNotEquals(resetAllCommand1, resetAllCommand3); // Different password
 
-        assertNotEquals(resetAllCommand1, new ResetLoansCommand()); // Different types
+        assertNotEquals(resetAllCommand1, new ListCommand()); // Different types
     }
 
 }
