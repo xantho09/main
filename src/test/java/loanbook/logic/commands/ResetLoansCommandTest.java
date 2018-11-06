@@ -3,12 +3,12 @@ package loanbook.logic.commands;
 import static loanbook.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static loanbook.testutil.TypicalLoanBook.getTypicalLoanBook;
 
-import loanbook.model.Password;
 import org.junit.Test;
 
 import loanbook.logic.CommandHistory;
 import loanbook.model.Model;
 import loanbook.model.ModelManager;
+import loanbook.model.Password;
 import loanbook.model.UserPrefs;
 
 public class ResetLoansCommandTest {

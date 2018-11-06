@@ -4,6 +4,8 @@ import static loanbook.testutil.TypicalLoanBook.getTypicalLoanBook;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import org.junit.Test;
+
 import loanbook.commons.core.Messages;
 import loanbook.logic.CommandHistory;
 import loanbook.logic.commands.exceptions.CommandException;
@@ -12,7 +14,6 @@ import loanbook.model.ModelManager;
 import loanbook.model.Password;
 import loanbook.model.UserPrefs;
 import loanbook.testutil.Assert;
-import org.junit.Test;
 
 public class PasswordProtectedCommandTest {
 
@@ -32,8 +33,8 @@ public class PasswordProtectedCommandTest {
             throw new AssertionError("A CommandException has been thrown when it should not have.");
         }
 
-        Assert.assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PASSWORD,
-                () -> incorrectStub.assertCorrectPassword(model));
+        Assert.assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PASSWORD, () ->
+                incorrectStub.assertCorrectPassword(model));
     }
 
     @Test

@@ -5,6 +5,9 @@ import loanbook.logic.commands.exceptions.CommandException;
 import loanbook.model.Model;
 import loanbook.model.Password;
 
+/**
+ * Represents a Command that requires password authentication.
+ */
 public abstract class PasswordProtectedCommand extends Command {
 
     private final Password targetPassword;

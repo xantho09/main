@@ -4,7 +4,6 @@ import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
 
 import java.util.List;
 
-import loanbook.logic.commands.ResetAllCommand;
 import loanbook.logic.commands.ResetLoansCommand;
 import loanbook.logic.parser.exceptions.ParseException;
 import loanbook.model.Password;
